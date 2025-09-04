@@ -75,7 +75,7 @@ class ViewFillBuilder(
      */
     fun fillSpace(
         direction: FillDirection = FillDirection.All,
-        useMargin: Boolean = true
+        useMargin: Boolean = true,
     ): ViewInsetsChain {
         val spacingType = if (useMargin) SpacingType.MARGIN else SpacingType.PADDING
         return if (chain != null) {
@@ -101,14 +101,13 @@ class ViewFillBuilder(
      * view.awayFrom(SystemArea.NavigationBar).fillWithPadding(FillDirection.Vertical).handleEdgeToEdge()
      * ```
      */
-    fun fillWithPadding(direction: FillDirection = FillDirection.All): ViewInsetsChain {
-        return if (chain != null) {
+    fun fillWithPadding(direction: FillDirection = FillDirection.All): ViewInsetsChain =
+        if (chain != null) {
             chain.addView(view, systemArea, direction, SpacingType.PADDING)
             chain
         } else {
             ViewInsetsChain(view, systemArea, direction, SpacingType.PADDING)
         }
-    }
 
     /**
      * Fills the space by applying margin to the view based on system insets.
@@ -125,12 +124,11 @@ class ViewFillBuilder(
      * view.awayFrom(SystemArea.NavigationBar).fillWithMargin(FillDirection.Horizontal).handleEdgeToEdge()
      * ```
      */
-    fun fillWithMargin(direction: FillDirection = FillDirection.All): ViewInsetsChain {
-        return if (chain != null) {
+    fun fillWithMargin(direction: FillDirection = FillDirection.All): ViewInsetsChain =
+        if (chain != null) {
             chain.addView(view, systemArea, direction, SpacingType.MARGIN)
             chain
         } else {
             ViewInsetsChain(view, systemArea, direction, SpacingType.MARGIN)
         }
-    }
 }
