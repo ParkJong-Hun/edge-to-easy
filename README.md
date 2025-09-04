@@ -1,2 +1,9 @@
-# edge-to-easy
-This library makes it easier to enable Edge to Edge in your Android app.
+# EdgeToEasy
+
+A Kotlin library that simplifies implementing Edge-to-Edge UI in Android applications.
+
+## Development Status
+
+⚠️ **This library is currently in early development stage.**
+
+Features and APIs are not yet stable and may change significantly.

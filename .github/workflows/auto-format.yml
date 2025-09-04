@@ -1,0 +1,52 @@
+name: Auto Format
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  format:
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        ref: ${{ github.head_ref }}
+        
+    - name: Set up JDK 17
+      uses: actions/setup-kotlin@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        
+    - name: Setup Gradle
+      uses: gradle/gradle-build-action@v2
+      
+    - name: Check if formatting is needed
+      id: check
+      run: |
+        if ./gradlew spotlessCheck; then
+          echo "formatted=false" >> $GITHUB_OUTPUT
+        else
+          echo "formatted=true" >> $GITHUB_OUTPUT
+        fi
+        
+    - name: Apply Spotless formatting
+      if: steps.check.outputs.formatted == 'true'
+      run: ./gradlew spotlessApply
+      
+    - name: Commit and push changes
+      if: steps.check.outputs.formatted == 'true'
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add .
+        if git diff --staged --quiet; then
+          echo "No changes to commit"
+        else
+          git commit -m "Auto-format code with Spotless"
+          git push
+        fi
