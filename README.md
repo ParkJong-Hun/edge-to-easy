@@ -74,7 +74,8 @@ constraintLayout.addSystemAreaSpacer(SystemArea.StatusBar, addToTop = true)  // 
 ## System Areas
 
 - `SystemArea.StatusBar` / `SystemArea.Top` - Status bar area
-- `SystemArea.NavigationBar` / `SystemArea.Bottom` - Navigation bar area  
+- `SystemArea.NavigationBar` - Navigation bar area
+- `SystemArea.Bottom` - Navigation bar or IME area (larger of the two)  
 - `SystemArea.SystemBar` - Both status and navigation bars
 - `SystemArea.IME` - Input Method Editor (keyboard) area
 - `SystemArea.Cutout` - Display cutout area
