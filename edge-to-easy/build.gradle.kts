@@ -55,6 +55,7 @@ android {
 
 dependencies {
     implementation(libs.bundles.androidx)
+    implementation(libs.androidx.recyclerview)
 
     testImplementation(libs.bundles.test)
     androidTestImplementation(libs.bundles.android.test)

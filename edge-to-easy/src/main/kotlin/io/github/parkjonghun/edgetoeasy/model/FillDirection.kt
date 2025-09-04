@@ -139,3 +139,44 @@ data class FillDirection(
             )
     }
 }
+
+/**
+ * Represents the vertical directions in which a view should fill the available space.
+ *
+ * @property top If true, the view should fill the top direction.
+ * @property bottom If true, the view should fill the bottom direction.
+ */
+data class FillVerticalDirection(
+    val top: Boolean = true,
+    val bottom: Boolean = true,
+) {
+    companion object Companion {
+        @JvmStatic
+        val None =
+            FillVerticalDirection(
+                top = false,
+                bottom = false,
+            )
+
+        @JvmStatic
+        val All =
+            FillVerticalDirection(
+                top = true,
+                bottom = true,
+            )
+
+        @JvmStatic
+        val Top =
+            FillVerticalDirection(
+                top = true,
+                bottom = false,
+            )
+
+        @JvmStatic
+        val Bottom =
+            FillVerticalDirection(
+                top = false,
+                bottom = true,
+            )
+    }
+}
