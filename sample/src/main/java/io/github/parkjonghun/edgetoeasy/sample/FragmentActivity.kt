@@ -47,7 +47,7 @@ class SampleFragment : Fragment() {
     ): View =
         TextView(requireContext()).apply {
             text =
-                "Fragment Activity\n\nThis is a fragment that uses the Edge to Easy library. The fragment's root view properly handles system insets using the applyEdgeToEdgeInsets extension function."
+                ""
             textSize = 16f
             setPadding(32, 32, 32, 32)
         }
@@ -58,7 +58,6 @@ class SampleFragment : Fragment() {
     ) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Apply edge-to-edge insets using our library
-        applyEdgeToEdgeInsets(view)
+        requireActivity().enableEdgeToEdge()
     }
 }
