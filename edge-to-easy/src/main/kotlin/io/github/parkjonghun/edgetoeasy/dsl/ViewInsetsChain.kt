@@ -100,7 +100,18 @@ class ViewInsetsChain(
                     when (config.systemArea) {
                         SystemArea.SystemBar, SystemArea.Everything -> insets.getInsets(WindowInsetsCompat.Type.systemBars())
                         SystemArea.StatusBar, SystemArea.Top -> insets.getInsets(WindowInsetsCompat.Type.statusBars())
-                        SystemArea.NavigationBar, SystemArea.Bottom -> insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                        SystemArea.NavigationBar -> insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                        SystemArea.Bottom -> {
+                            val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+                            Insets.of(
+                                maxOf(navBar.left, ime.left),
+                                maxOf(navBar.top, ime.top),
+                                maxOf(navBar.right, ime.right),
+                                maxOf(navBar.bottom, ime.bottom),
+                            )
+                        }
+                        SystemArea.IME -> insets.getInsets(WindowInsetsCompat.Type.ime())
                         SystemArea.Cutout -> insets.getInsets(WindowInsetsCompat.Type.displayCutout())
                         SystemArea.TopFull -> {
                             val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())

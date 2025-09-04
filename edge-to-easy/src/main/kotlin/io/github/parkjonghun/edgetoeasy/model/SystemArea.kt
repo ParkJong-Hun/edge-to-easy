@@ -52,7 +52,7 @@ enum class SystemArea {
     /** The larger space of the StatusBar or Cutout */
     TopFull,
 
-    /** NavigationBar */
+    /** The larger space of the NavigationBar or IME */
     Bottom,
 
     /** The larger space of the NavigationBar or Cutout or IME */
