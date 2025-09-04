@@ -48,7 +48,7 @@ fun RecyclerView.addSpaceForLastItem(direction: FillVerticalDirection = FillVert
                 val adapter = parent.adapter ?: return
                 val position = parent.getChildAdapterPosition(view)
 
-                // Add bottom inset for the last item to avoid navigation bar overlap
+                // Only apply offset to the last item
                 if (position == adapter.itemCount - 1) {
                     val rootWindowInsets = ViewCompat.getRootWindowInsets(view)
                     when (direction) {
