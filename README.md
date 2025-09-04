@@ -58,12 +58,17 @@ parentView.awayFrom(SystemArea.StatusBar).fillSpace().continueToOthers()
 
 // Handle different system areas
 view.awayFrom(SystemArea.TopFull).fillSpace().handleEdgeToEdge()    // Status bar + cutout
-view.awayFrom(SystemArea.BottomFull).fillSpace().handleEdgeToEdge()     // Nav bar + cutout
+view.awayFrom(SystemArea.BottomFull).fillSpace().handleEdgeToEdge()  // Nav bar + cutout + IME
+view.awayFrom(SystemArea.IME).fillSpace().handleEdgeToEdge()        // Keyboard area
 
 // Mix different spacing types
 toolbar.awayFrom(SystemArea.StatusBar).fillWithMargin()
     .then(content).awayFrom(SystemArea.NavigationBar).fillWithPadding()
     .handleEdgeToEdge()
+
+// Add spacer views to ViewGroups
+linearLayout.addSystemAreaSpacer(SystemArea.NavigationBar)  // Add at the end
+constraintLayout.addSystemAreaSpacer(SystemArea.StatusBar, addToTop = true)  // Add at the beginning
 ```
 
 ## System Areas
@@ -71,10 +76,11 @@ toolbar.awayFrom(SystemArea.StatusBar).fillWithMargin()
 - `SystemArea.StatusBar` / `SystemArea.Top` - Status bar area
 - `SystemArea.NavigationBar` / `SystemArea.Bottom` - Navigation bar area  
 - `SystemArea.SystemBar` - Both status and navigation bars
+- `SystemArea.IME` - Input Method Editor (keyboard) area
 - `SystemArea.Cutout` - Display cutout area
-- `SystemArea.Everything` - All system areas
+- `SystemArea.Everything` - All system areas (system bars + cutout + IME)
 - `SystemArea.TopFull` - Status bar + cutout (larger of the two)
-- `SystemArea.BottomFull` - Navigation bar + cutout (larger of the two)
+- `SystemArea.BottomFull` - Navigation bar + cutout + IME (larger of the three)
 
 ## Fill Directions
 
@@ -90,6 +96,7 @@ toolbar.awayFrom(SystemArea.StatusBar).fillWithMargin()
 ### Extension Functions
 
 - `View.awayFrom(systemArea)` - Create distance from system area
+- `ViewGroup.addSystemAreaSpacer(systemArea, addToTop)` - Add spacer view with height based on system area insets
 
 ### Fill Methods
 
