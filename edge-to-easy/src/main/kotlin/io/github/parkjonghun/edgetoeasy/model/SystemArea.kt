@@ -31,6 +31,9 @@ enum class SystemArea {
     /** The space below where the 3-button or 2-button navigation or gesture buttons are displayed. */
     NavigationBar,
 
+    /** The space occupied by the on-screen keyboard when it is visible */
+    IME,
+
     /**
      * The space of the display cutout
      *
@@ -40,7 +43,7 @@ enum class SystemArea {
 
     // MARK: More intuitive expression
 
-    /** The larger space of the SystemBar or Cutout */
+    /** The larger space of the SystemBar or Cutout or IME */
     Everything,
 
     /** StatusBar */
@@ -52,6 +55,6 @@ enum class SystemArea {
     /** NavigationBar */
     Bottom,
 
-    /** The larger space of the NavigationBar or Cutout */
+    /** The larger space of the NavigationBar or Cutout or IME */
     BottomFull,
 }
