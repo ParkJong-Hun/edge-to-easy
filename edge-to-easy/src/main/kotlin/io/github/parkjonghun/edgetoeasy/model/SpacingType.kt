@@ -13,13 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.parkjonghun.edgetoeasy
+package io.github.parkjonghun.edgetoeasy.model
 
-import org.junit.Test
+/**
+ * Defines how the spacing should be applied to a view.
+ */
+enum class SpacingType {
+    /** Apply spacing as padding (inside the view) */
+    PADDING,
 
-class EdgeToEasyTest {
-    @Test
-    fun testLibraryExists() {
-        assert(EdgeToEasy::class.java.name.isNotEmpty())
-    }
+    /** Apply spacing as margin (outside the view) */
+    MARGIN,
 }
