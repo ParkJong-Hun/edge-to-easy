@@ -17,17 +17,16 @@ package io.github.parkjonghun.edgetoeasy.sample
 
 import android.os.Bundle
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import io.github.parkjonghun.edgetoeasy.EdgeToEasy.enableEdgeToEasyMode
 
 class TraditionalActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Enable edge-to-edge using our library
-        enableEdgeToEasyMode()
+        enableEdgeToEdge()
 
         // Create a simple layout programmatically
         val rootView =

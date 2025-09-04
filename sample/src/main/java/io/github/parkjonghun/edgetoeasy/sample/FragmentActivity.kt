@@ -20,17 +20,15 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import io.github.parkjonghun.edgetoeasy.EdgeToEasy.applyEdgeToEdgeInsets
-import io.github.parkjonghun.edgetoeasy.EdgeToEasy.enableEdgeToEasyMode
 
 class FragmentActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Enable edge-to-edge using our library
-        enableEdgeToEasyMode()
+        enableEdgeToEdge()
 
         if (savedInstanceState == null) {
             supportFragmentManager
