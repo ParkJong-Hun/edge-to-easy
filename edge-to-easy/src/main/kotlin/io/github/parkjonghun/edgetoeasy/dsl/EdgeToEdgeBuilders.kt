@@ -54,70 +54,83 @@ class ViewFillBuilder(
     private val chain: ViewInsetsChain? = null,
 ) {
     /**
+     * Fills the space by applying spacing to the view based on system insets.
+     * By default, uses margin spacing (outside the view).
+     *
+     * @param direction The direction(s) to fill. Defaults to FillDirection.All
+     * @param useMargin Whether to use margin (true, default) or padding (false)
+     * @return ViewInsetsChain to continue applying insets to other views or finish
+     *
+     * Usage examples:
+     * ```kotlin
+     * // Default margin spacing
+     * view.awayFrom(SystemArea.StatusBar).fillSpace().handleEdgeToEdge()
+     *
+     * // Explicit padding spacing
+     * view.awayFrom(SystemArea.NavigationBar).fillSpace(useMargin = false).handleEdgeToEdge()
+     *
+     * // Specific direction with padding
+     * view.awayFrom(SystemArea.Top).fillSpace(FillDirection.Vertical, useMargin = false).handleEdgeToEdge()
+     * ```
+     */
+    fun fillSpace(
+        direction: FillDirection = FillDirection.All,
+        useMargin: Boolean = true
+    ): ViewInsetsChain {
+        val spacingType = if (useMargin) SpacingType.MARGIN else SpacingType.PADDING
+        return if (chain != null) {
+            chain.addView(view, systemArea, direction, spacingType)
+            chain
+        } else {
+            ViewInsetsChain(view, systemArea, direction, spacingType)
+        }
+    }
+
+    /**
      * Fills the space by applying padding to the view based on system insets.
-     * This method sets up a WindowInsetsListener that automatically applies padding
-     * to avoid overlapping with the specified system area.
      *
      * @param direction The direction(s) to fill. Defaults to FillDirection.All
      * @return ViewInsetsChain to continue applying insets to other views or finish
      *
      * Usage examples:
      * ```kotlin
-     * // Single view usage - this view handles insets exclusively
-     * view.separateFrom(SystemArea.StatusBar).fillWithPadding().handleEdgeToEdge()
+     * // Padding in all directions
+     * view.awayFrom(SystemArea.StatusBar).fillWithPadding().handleEdgeToEdge()
      *
-     * // Multiple views usage - chain to other views
-     * view1.separateFrom(SystemArea.Top).fillWithPadding()
-     *      .then(view2).separateFrom(SystemArea.Bottom).fillWithPadding().handleEdgeToEdge()
+     * // Padding only vertically
+     * view.awayFrom(SystemArea.NavigationBar).fillWithPadding(FillDirection.Vertical).handleEdgeToEdge()
      * ```
      */
-    fun fillWithPadding(direction: FillDirection = FillDirection.All): ViewInsetsChain =
-        if (chain != null) {
+    fun fillWithPadding(direction: FillDirection = FillDirection.All): ViewInsetsChain {
+        return if (chain != null) {
             chain.addView(view, systemArea, direction, SpacingType.PADDING)
             chain
         } else {
             ViewInsetsChain(view, systemArea, direction, SpacingType.PADDING)
         }
+    }
 
     /**
      * Fills the space by applying margin to the view based on system insets.
-     * This method sets up a WindowInsetsListener that automatically applies margin
-     * to avoid overlapping with the specified system area.
-     * This is the default spacing method.
      *
      * @param direction The direction(s) to fill. Defaults to FillDirection.All
      * @return ViewInsetsChain to continue applying insets to other views or finish
      *
      * Usage examples:
      * ```kotlin
-     * // Single view usage - this view handles insets exclusively
-     * view.separateFrom(SystemArea.StatusBar).fillSpace().handleEdgeToEdge()
+     * // Margin in all directions
+     * view.awayFrom(SystemArea.StatusBar).fillWithMargin().handleEdgeToEdge()
      *
-     * // Multiple views usage - chain to other views
-     * view1.separateFrom(SystemArea.Top).fillSpace()
-     *      .then(view2).separateFrom(SystemArea.Bottom).fillSpace().handleEdgeToEdge()
+     * // Margin only horizontally
+     * view.awayFrom(SystemArea.NavigationBar).fillWithMargin(FillDirection.Horizontal).handleEdgeToEdge()
      * ```
      */
-    fun fillSpace(direction: FillDirection = FillDirection.All): ViewInsetsChain =
-        if (chain != null) {
+    fun fillWithMargin(direction: FillDirection = FillDirection.All): ViewInsetsChain {
+        return if (chain != null) {
             chain.addView(view, systemArea, direction, SpacingType.MARGIN)
             chain
         } else {
             ViewInsetsChain(view, systemArea, direction, SpacingType.MARGIN)
         }
-
-    /**
-     * Convenience method that fills space in all directions using margin.
-     * Equivalent to calling fillSpace(FillDirection.All).
-     */
-    fun fillSpace() = fillSpace(FillDirection.All)
-
-    /**
-     * Fills the space by applying margin to the view based on system insets.
-     * This is an alias for fillSpace() for explicit clarity.
-     *
-     * @param direction The direction(s) to fill. Defaults to FillDirection.All
-     * @return ViewInsetsChain to continue applying insets to other views or finish
-     */
-    fun fillWithMargin(direction: FillDirection = FillDirection.All): ViewInsetsChain = fillSpace(direction)
+    }
 }

@@ -26,13 +26,16 @@ dependencies {
 
 ```kotlin
 // Simple margin-based spacing (default)
-view.separateFrom(SystemArea.StatusBar).fillSpace().handleEdgeToEdge()
+view.awayFrom(SystemArea.StatusBar).fillSpace().handleEdgeToEdge()
 
 // Explicit padding-based spacing
 view.awayFrom(SystemArea.NavigationBar).fillWithPadding().handleEdgeToEdge()
 
+// Explicit margin-based spacing
+view.awayFrom(SystemArea.StatusBar).fillWithMargin().handleEdgeToEdge()
+
 // Specific direction control
-view.distanceFrom(SystemArea.Everything)
+view.awayFrom(SystemArea.Everything)
     .fillSpace(FillDirection.Horizontal)
     .handleEdgeToEdge()
 ```
@@ -41,9 +44,9 @@ view.distanceFrom(SystemArea.Everything)
 
 ```kotlin
 // Chain multiple views with different system areas
-toolbar.separateFrom(SystemArea.Top).fillWithMargin()
+toolbar.awayFrom(SystemArea.Top).fillWithMargin()
     .then(content).awayFrom(SystemArea.Left).fillWithPadding(FillDirection.Horizontal)
-    .then(bottomNav).distanceFrom(SystemArea.Bottom).fillSpace()
+    .then(bottomNav).awayFrom(SystemArea.Bottom).fillSpace()
     .handleEdgeToEdge()
 ```
 
@@ -51,11 +54,16 @@ toolbar.separateFrom(SystemArea.Top).fillWithMargin()
 
 ```kotlin
 // Continue insets to other views outside the chain
-parentView.separateFrom(SystemArea.StatusBar).fillSpace().continueToOthers()
+parentView.awayFrom(SystemArea.StatusBar).fillSpace().continueToOthers()
 
 // Handle different system areas
-view.separateFrom(SystemArea.TopFull).fillSpace().handleEdgeToEdge()    // Status bar + cutout
+view.awayFrom(SystemArea.TopFull).fillSpace().handleEdgeToEdge()    // Status bar + cutout
 view.awayFrom(SystemArea.BottomFull).fillSpace().handleEdgeToEdge()     // Nav bar + cutout
+
+// Mix different spacing types
+toolbar.awayFrom(SystemArea.StatusBar).fillWithMargin()
+    .then(content).awayFrom(SystemArea.NavigationBar).fillWithPadding()
+    .handleEdgeToEdge()
 ```
 
 ## System Areas
@@ -81,15 +89,13 @@ view.awayFrom(SystemArea.BottomFull).fillSpace().handleEdgeToEdge()     // Nav b
 
 ### Extension Functions
 
-- `View.separateFrom(systemArea)` - Create distance from system area
-- `View.awayFrom(systemArea)` - Alternative wording for separateFrom
-- `View.distanceFrom(systemArea)` - Alternative wording for separateFrom
+- `View.awayFrom(systemArea)` - Create distance from system area
 
 ### Fill Methods
 
-- `fillSpace(direction)` - Fill with margin (default spacing)
-- `fillWithMargin(direction)` - Explicitly fill with margin
-- `fillWithPadding(direction)` - Fill with padding
+- `fillSpace(direction, useMargin)` - Fill space with margin (default) or padding
+- `fillWithPadding(direction)` - Fill space with padding
+- `fillWithMargin(direction)` - Fill space with margin
 
 ### Chain Control
 

@@ -20,58 +20,22 @@ import io.github.parkjonghun.edgetoeasy.dsl.ViewFillBuilder
 import io.github.parkjonghun.edgetoeasy.model.SystemArea
 
 /**
- * Creates space between the view and the specified system area by applying padding.
- * This extension function provides a natural language DSL for edge-to-edge configuration.
+ * Creates space between the view and the specified system area.
+ * This extension function provides a DSL for edge-to-edge configuration.
  *
- * @param systemArea The system area to separate from (StatusBar, NavigationBar, etc.)
+ * @param systemArea The system area to move away from (StatusBar, NavigationBar, etc.)
  * @return ViewFillBuilder for method chaining to specify fill direction
  *
  * Usage examples:
  * ```kotlin
- * // Basic usage - separate from status bar and fill all directions
- * view.separateFrom(SystemArea.StatusBar).fillSpace()
+ * // Basic usage - move away from status bar and fill all directions
+ * view.awayFrom(SystemArea.StatusBar).fillSpace().handleEdgeToEdge()
  *
- * // Separate from navigation bar and fill only vertically
- * view.separateFrom(SystemArea.NavigationBar).fillSpace(FillDirection.Vertical)
+ * // Move away from navigation bar and fill only vertically
+ * view.awayFrom(SystemArea.NavigationBar).fillSpace(FillDirection.Vertical).handleEdgeToEdge()
  *
- * // Separate from everything (system bars + cutout) and fill horizontally
- * view.separateFrom(SystemArea.Everything).fillSpace(FillDirection.Horizontal)
- * ```
- */
-fun View.separateFrom(systemArea: SystemArea): ViewFillBuilder = ViewFillBuilder(this, systemArea)
-
-/**
- * Creates distance between the view and the specified system area by applying padding.
- * This extension function is an alias for separateFrom() providing alternative wording.
- *
- * @param systemArea The system area to move away from
- * @return ViewFillBuilder for method chaining to specify fill direction
- *
- * Usage examples:
- * ```kotlin
- * // Move away from top area (status bar)
- * view.awayFrom(SystemArea.Top).fillSpace()
- *
- * // Move away from bottom area (navigation bar) in specific direction
- * view.awayFrom(SystemArea.Bottom).fillSpace(FillDirection.Left)
+ * // Move away from everything (system bars + cutout) and fill horizontally
+ * view.awayFrom(SystemArea.Everything).fillSpace(FillDirection.Horizontal).handleEdgeToEdge()
  * ```
  */
 fun View.awayFrom(systemArea: SystemArea): ViewFillBuilder = ViewFillBuilder(this, systemArea)
-
-/**
- * Creates distance between the view and the specified system area by applying padding.
- * This extension function is an alias for separateFrom() providing alternative wording.
- *
- * @param systemArea The system area to create distance from
- * @return ViewFillBuilder for method chaining to specify fill direction
- *
- * Usage examples:
- * ```kotlin
- * // Create distance from cutout area
- * view.distanceFrom(SystemArea.Cutout).fillSpace()
- *
- * // Create distance from system bar in multiple directions
- * view.distanceFrom(SystemArea.SystemBar).fillSpace(FillDirection.TopLeft)
- * ```
- */
-fun View.distanceFrom(systemArea: SystemArea): ViewFillBuilder = ViewFillBuilder(this, systemArea)
