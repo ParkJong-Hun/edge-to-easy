@@ -37,7 +37,6 @@ Thumbs.db
 *.bak
 *.swp
 *~.nib
-local.properties
 
 # Log files
 *.log
@@ -57,12 +56,8 @@ target/
 .kotlin/
 kotlin-js-store/
 
-# Node modules (if using Node.js tools)
-node_modules/
-
 # Test results
 test-results/
-*.xml
 
 # Coverage reports
 coverage/

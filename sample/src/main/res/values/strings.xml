@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Edge to Easy Sample</string>
+    <string name="welcome_title">Edge to Easy Sample</string>
+    <string name="welcome_description">This sample app demonstrates how to use the Edge to Easy library to enable edge-to-edge display in your Android app.</string>
+    <string name="traditional_activity">Traditional Activity</string>
+    <string name="compose_activity">Compose Activity</string>
+    <string name="fragment_activity">Fragment Activity</string>
+    <string name="traditional_title">Traditional Activity</string>
+    <string name="compose_title">Compose Activity</string>
+    <string name="fragment_title">Fragment Activity</string>
+    <string name="sample_text">This is a sample text to show how the content looks with edge-to-edge display enabled. The content should properly handle system insets.</string>
+</resources>
