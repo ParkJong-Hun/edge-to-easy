@@ -66,65 +66,69 @@ fun View.awayFrom(systemArea: SystemArea): ViewFillBuilder = ViewFillBuilder(thi
  * constraintLayout.addSystemAreaSpacer(SystemArea.BottomFull)
  * ```
  */
-fun ViewGroup.addSystemAreaSpacer(systemArea: SystemArea, addToTop: Boolean = false): View {
+fun ViewGroup.addSystemAreaSpacer(
+    systemArea: SystemArea,
+    addToTop: Boolean = false,
+): View {
     val spacerView = View(context)
-    
+
     // Add the spacer view to the ViewGroup at the specified position
     if (addToTop) {
         addView(spacerView, 0)
     } else {
         addView(spacerView)
     }
-    
+
     // Set up window insets listener to adjust height based on system area
     ViewCompat.setOnApplyWindowInsetsListener(spacerView) { view, insets ->
-        val systemInsets = when (systemArea) {
-            SystemArea.SystemBar -> insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            SystemArea.StatusBar, SystemArea.Top -> insets.getInsets(WindowInsetsCompat.Type.statusBars())
-            SystemArea.NavigationBar, SystemArea.Bottom -> insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-            SystemArea.IME -> insets.getInsets(WindowInsetsCompat.Type.ime())
-            SystemArea.Cutout -> insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-            SystemArea.Everything -> {
-                val systemBar = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-                Insets.of(
-                    maxOf(systemBar.left, cutout.left, ime.left),
-                    maxOf(systemBar.top, cutout.top, ime.top),
-                    maxOf(systemBar.right, cutout.right, ime.right),
-                    maxOf(systemBar.bottom, cutout.bottom, ime.bottom)
-                )
+        val systemInsets =
+            when (systemArea) {
+                SystemArea.SystemBar -> insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                SystemArea.StatusBar, SystemArea.Top -> insets.getInsets(WindowInsetsCompat.Type.statusBars())
+                SystemArea.NavigationBar, SystemArea.Bottom -> insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                SystemArea.IME -> insets.getInsets(WindowInsetsCompat.Type.ime())
+                SystemArea.Cutout -> insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+                SystemArea.Everything -> {
+                    val systemBar = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+                    val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+                    val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+                    Insets.of(
+                        maxOf(systemBar.left, cutout.left, ime.left),
+                        maxOf(systemBar.top, cutout.top, ime.top),
+                        maxOf(systemBar.right, cutout.right, ime.right),
+                        maxOf(systemBar.bottom, cutout.bottom, ime.bottom),
+                    )
+                }
+                SystemArea.TopFull -> {
+                    val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+                    val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+                    Insets.of(
+                        maxOf(statusBar.left, cutout.left),
+                        maxOf(statusBar.top, cutout.top),
+                        maxOf(statusBar.right, cutout.right),
+                        statusBar.bottom,
+                    )
+                }
+                SystemArea.BottomFull -> {
+                    val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+                    val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+                    val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+                    Insets.of(
+                        maxOf(navBar.left, cutout.left, ime.left),
+                        navBar.top,
+                        maxOf(navBar.right, cutout.right, ime.right),
+                        maxOf(navBar.bottom, cutout.bottom, ime.bottom),
+                    )
+                }
             }
-            SystemArea.TopFull -> {
-                val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
-                val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                Insets.of(
-                    maxOf(statusBar.left, cutout.left),
-                    maxOf(statusBar.top, cutout.top),
-                    maxOf(statusBar.right, cutout.right),
-                    statusBar.bottom
-                )
-            }
-            SystemArea.BottomFull -> {
-                val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-                Insets.of(
-                    maxOf(navBar.left, cutout.left, ime.left),
-                    navBar.top,
-                    maxOf(navBar.right, cutout.right, ime.right),
-                    maxOf(navBar.bottom, cutout.bottom, ime.bottom)
-                )
-            }
-        }
-        
+
         // Set the height of the spacer view based on the maximum of top and bottom insets
         val layoutParams = view.layoutParams
         layoutParams.height = maxOf(systemInsets.top, systemInsets.bottom)
         view.layoutParams = layoutParams
-        
+
         insets
     }
-    
+
     return spacerView
 }
