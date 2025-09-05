@@ -38,10 +38,11 @@ fun View.insetsFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets
                 insets
             }
 
-        val currentInsets = ViewCompat
-            .getRootWindowInsets(this@insetsFlow)
-            ?.let { SystemAreaInsetsMapper.getInsetsForSystemArea(it, systemArea) }
-            ?: Insets.NONE
+        val currentInsets =
+            ViewCompat
+                .getRootWindowInsets(this@insetsFlow)
+                ?.let { SystemAreaInsetsMapper.getInsetsForSystemArea(it, systemArea) }
+                ?: Insets.NONE
         trySend(currentInsets)
 
         ViewCompat.setOnApplyWindowInsetsListener(this@insetsFlow, listener)
@@ -49,11 +50,8 @@ fun View.insetsFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets
         awaitClose { ViewCompat.setOnApplyWindowInsetsListener(this@insetsFlow, null) }
     }.conflate()
 
-fun View.insetsStateFlow(systemArea: SystemArea = SystemArea.Everything): StateFlow<Insets> =
-    InsetsFlowProvider.getOrCreate(this, systemArea).insetsStateFlow
+fun View.insetsStateFlow(systemArea: SystemArea = SystemArea.Everything): StateFlow<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsStateFlow
 
-fun View.insetsChannel(systemArea: SystemArea = SystemArea.Everything): Channel<Insets> =
-    InsetsFlowProvider.getOrCreate(this, systemArea).insetsChannel
+fun View.insetsChannel(systemArea: SystemArea = SystemArea.Everything): Channel<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsChannel
 
-fun View.insetsChannelFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets> =
-    InsetsFlowProvider.getOrCreate(this, systemArea).insetsChannelFlow
+fun View.insetsChannelFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsChannelFlow
