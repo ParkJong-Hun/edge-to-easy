@@ -31,7 +31,7 @@ import io.github.parkjonghun.edgetoeasy.core.util.ColorUtils
  * activity.forceStatusBarItemsLight()
  * ```
  */
-fun Activity.forceStatusBarItemsLight() {
+public fun Activity.forceStatusBarItemsLight() {
     WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = true
 }
 
@@ -44,7 +44,7 @@ fun Activity.forceStatusBarItemsLight() {
  * activity.forceStatusBarItemsDark()
  * ```
  */
-fun Activity.forceStatusBarItemsDark() {
+public fun Activity.forceStatusBarItemsDark() {
     WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightStatusBars = false
 }
 
@@ -57,7 +57,7 @@ fun Activity.forceStatusBarItemsDark() {
  * activity.forceNavigationBarItemsLight()
  * ```
  */
-fun Activity.forceNavigationBarItemsLight() {
+public fun Activity.forceNavigationBarItemsLight() {
     WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars =
         true
 }
@@ -71,7 +71,7 @@ fun Activity.forceNavigationBarItemsLight() {
  * activity.forceNavigationBarItemsDark()
  * ```
  */
-fun Activity.forceNavigationBarItemsDark() {
+public fun Activity.forceNavigationBarItemsDark() {
     WindowCompat.getInsetsController(window, window.decorView).isAppearanceLightNavigationBars =
         false
 }
@@ -81,7 +81,7 @@ fun Activity.forceNavigationBarItemsDark() {
  *
  * @param backgroundColor The background color to analyze
  */
-fun Activity.setStatusBarAppearanceForBackground(
+public fun Activity.setStatusBarAppearanceForBackground(
     @ColorInt backgroundColor: Int,
 ) {
     val shouldUseLightContent = ColorUtils.shouldUseLightStatusBar(backgroundColor)
@@ -127,7 +127,7 @@ private fun Activity.setStatusBarAppearance(lightContent: Boolean) {
  * activity.setAutoStatusBarAppearance(Color.WHITE)
  * ```
  */
-fun Activity.setAutoStatusBarAppearance(
+public fun Activity.setAutoStatusBarAppearance(
     @ColorInt backgroundColor: Int,
 ) {
     setStatusBarAppearanceForBackground(backgroundColor)

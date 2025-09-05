@@ -23,45 +23,44 @@ object SystemAreaInsetsMapper {
     fun getInsetsForSystemArea(
         insets: WindowInsetsCompat,
         systemArea: SystemArea,
-    ): Insets =
-        when (systemArea) {
-            SystemArea.SystemBar, SystemArea.Everything -> insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            SystemArea.StatusBar, SystemArea.Top -> insets.getInsets(WindowInsetsCompat.Type.statusBars())
-            SystemArea.NavigationBar -> insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-            SystemArea.Bottom -> {
-                val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-                Insets.of(
-                    maxOf(navBar.left, ime.left),
-                    maxOf(navBar.top, ime.top),
-                    maxOf(navBar.right, ime.right),
-                    maxOf(navBar.bottom, ime.bottom),
-                )
-            }
-
-            SystemArea.IME -> insets.getInsets(WindowInsetsCompat.Type.ime())
-            SystemArea.Cutout -> insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-            SystemArea.TopFull -> {
-                val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
-                val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                Insets.of(
-                    maxOf(statusBar.left, cutout.left),
-                    maxOf(statusBar.top, cutout.top),
-                    maxOf(statusBar.right, cutout.right),
-                    maxOf(statusBar.bottom, cutout.bottom),
-                )
-            }
-
-            SystemArea.BottomFull -> {
-                val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-                val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                Insets.of(
-                    maxOf(navBar.left, ime.left, cutout.left),
-                    maxOf(navBar.top, ime.top, cutout.top),
-                    maxOf(navBar.right, ime.right, cutout.right),
-                    maxOf(navBar.bottom, ime.bottom, cutout.bottom),
-                )
-            }
+    ): Insets = when (systemArea) {
+        SystemArea.SystemBar, SystemArea.Everything -> insets.getInsets(WindowInsetsCompat.Type.systemBars())
+        SystemArea.StatusBar, SystemArea.Top -> insets.getInsets(WindowInsetsCompat.Type.statusBars())
+        SystemArea.NavigationBar -> insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+        SystemArea.Bottom -> {
+            val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            Insets.of(
+                maxOf(navBar.left, ime.left),
+                maxOf(navBar.top, ime.top),
+                maxOf(navBar.right, ime.right),
+                maxOf(navBar.bottom, ime.bottom),
+            )
         }
+
+        SystemArea.IME -> insets.getInsets(WindowInsetsCompat.Type.ime())
+        SystemArea.Cutout -> insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+        SystemArea.TopFull -> {
+            val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
+            val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+            Insets.of(
+                maxOf(statusBar.left, cutout.left),
+                maxOf(statusBar.top, cutout.top),
+                maxOf(statusBar.right, cutout.right),
+                maxOf(statusBar.bottom, cutout.bottom),
+            )
+        }
+
+        SystemArea.BottomFull -> {
+            val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
+            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
+            val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
+            Insets.of(
+                maxOf(navBar.left, ime.left, cutout.left),
+                maxOf(navBar.top, ime.top, cutout.top),
+                maxOf(navBar.right, ime.right, cutout.right),
+                maxOf(navBar.bottom, ime.bottom, cutout.bottom),
+            )
+        }
+    }
 }

@@ -61,9 +61,9 @@ class ComposeActivity : ComponentActivity() {
 fun ComposeScreen() {
     Column(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(16.dp),
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -75,9 +75,9 @@ fun ComposeScreen() {
 
         Card(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
         ) {
             Text(
                 text = "This is a Compose activity that uses the Edge to Easy library. The content automatically handles system insets in Compose and displays beautifully edge-to-edge.",

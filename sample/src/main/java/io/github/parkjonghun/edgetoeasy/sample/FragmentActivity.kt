@@ -44,13 +44,12 @@ class SampleFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?,
-    ): View =
-        TextView(requireContext()).apply {
-            text =
-                ""
-            textSize = 16f
-            setPadding(32, 32, 32, 32)
-        }
+    ): View = TextView(requireContext()).apply {
+        text =
+            ""
+        textSize = 16f
+        setPadding(32, 32, 32, 32)
+    }
 
     override fun onViewCreated(
         view: View,

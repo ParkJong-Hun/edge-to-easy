@@ -69,10 +69,9 @@ internal object ColorUtils {
     @ColorInt
     fun getRecommendedStatusBarColor(
         @ColorInt backgroundColor: Int,
-    ): Int =
-        if (shouldUseLightStatusBar(backgroundColor)) {
-            Color.WHITE
-        } else {
-            Color.BLACK
-        }
+    ): Int = if (shouldUseLightStatusBar(backgroundColor)) {
+        Color.WHITE
+    } else {
+        Color.BLACK
+    }
 }

@@ -37,7 +37,7 @@ class ViewEdgeBuilder(
      * @param systemArea The system area to create distance from
      * @return ViewFillBuilder for method chaining
      */
-    fun from(systemArea: SystemArea): ViewFillBuilder = ViewFillBuilder(view, systemArea, chain)
+    public fun from(systemArea: SystemArea): ViewFillBuilder = ViewFillBuilder(view, systemArea, chain)
 }
 
 /**
@@ -73,7 +73,7 @@ class ViewFillBuilder(
      * view.awayFrom(SystemArea.Top).fillSpace(FillDirection.Vertical, useMargin = false).handleEdgeToEdge()
      * ```
      */
-    fun fillSpace(
+    public fun fillSpace(
         direction: FillDirection = FillDirection.All,
         useMargin: Boolean = true,
     ): ViewInsetsChain {
@@ -101,13 +101,12 @@ class ViewFillBuilder(
      * view.awayFrom(SystemArea.NavigationBar).fillWithPadding(FillDirection.Vertical).handleEdgeToEdge()
      * ```
      */
-    fun fillWithPadding(direction: FillDirection = FillDirection.All): ViewInsetsChain =
-        if (chain != null) {
-            chain.addView(view, systemArea, direction, SpacingType.PADDING)
-            chain
-        } else {
-            ViewInsetsChain(view, systemArea, direction, SpacingType.PADDING)
-        }
+    public fun fillWithPadding(direction: FillDirection = FillDirection.All): ViewInsetsChain = if (chain != null) {
+        chain.addView(view, systemArea, direction, SpacingType.PADDING)
+        chain
+    } else {
+        ViewInsetsChain(view, systemArea, direction, SpacingType.PADDING)
+    }
 
     /**
      * Fills the space by applying margin to the view based on system insets.
@@ -124,11 +123,10 @@ class ViewFillBuilder(
      * view.awayFrom(SystemArea.NavigationBar).fillWithMargin(FillDirection.Horizontal).handleEdgeToEdge()
      * ```
      */
-    fun fillWithMargin(direction: FillDirection = FillDirection.All): ViewInsetsChain =
-        if (chain != null) {
-            chain.addView(view, systemArea, direction, SpacingType.MARGIN)
-            chain
-        } else {
-            ViewInsetsChain(view, systemArea, direction, SpacingType.MARGIN)
-        }
+    public fun fillWithMargin(direction: FillDirection = FillDirection.All): ViewInsetsChain = if (chain != null) {
+        chain.addView(view, systemArea, direction, SpacingType.MARGIN)
+        chain
+    } else {
+        ViewInsetsChain(view, systemArea, direction, SpacingType.MARGIN)
+    }
 }

@@ -49,7 +49,7 @@ class ViewInsetsChain(
      *      .then(view3).distanceFrom(SystemArea.Left).fillSpace().handleEdgeToEdge()
      * ```
      */
-    fun then(view: View): ViewEdgeBuilder = ViewEdgeBuilder(view, this)
+    public fun then(view: View): ViewEdgeBuilder = ViewEdgeBuilder(view, this)
 
     /**
      * Completes the edge-to-edge handling and consumes the insets.
@@ -66,7 +66,7 @@ class ViewInsetsChain(
      *      .then(view2).awayFrom(SystemArea.Bottom).fillSpace().handleEdgeToEdge()
      * ```
      */
-    fun handleEdgeToEdge() {
+    public fun handleEdgeToEdge() {
         applyInsetsToViews(consumeInsets = true)
     }
 
@@ -79,7 +79,7 @@ class ViewInsetsChain(
      *      .then(view2).awayFrom(SystemArea.Bottom).fillSpace().continueToOthers()
      * ```
      */
-    fun continueToOthers() {
+    public fun continueToOthers() {
         applyInsetsToViews(consumeInsets = false)
     }
 

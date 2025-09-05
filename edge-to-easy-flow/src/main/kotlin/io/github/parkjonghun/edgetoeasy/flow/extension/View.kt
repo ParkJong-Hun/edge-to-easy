@@ -29,29 +29,28 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.conflate
 
-fun View.insetsFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets> =
-    callbackFlow {
-        val listener =
-            OnApplyWindowInsetsListener { _, insets ->
-                val targetInsets = SystemAreaInsetsMapper.getInsetsForSystemArea(insets, systemArea)
-                trySend(targetInsets)
-                insets
-            }
+public fun View.insetsFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets> = callbackFlow {
+    val listener =
+        OnApplyWindowInsetsListener { _, insets ->
+            val targetInsets = SystemAreaInsetsMapper.getInsetsForSystemArea(insets, systemArea)
+            trySend(targetInsets)
+            insets
+        }
 
-        val currentInsets =
-            ViewCompat
-                .getRootWindowInsets(this@insetsFlow)
-                ?.let { SystemAreaInsetsMapper.getInsetsForSystemArea(it, systemArea) }
-                ?: Insets.NONE
-        trySend(currentInsets)
+    val currentInsets =
+        ViewCompat
+            .getRootWindowInsets(this@insetsFlow)
+            ?.let { SystemAreaInsetsMapper.getInsetsForSystemArea(it, systemArea) }
+            ?: Insets.NONE
+    trySend(currentInsets)
 
-        ViewCompat.setOnApplyWindowInsetsListener(this@insetsFlow, listener)
+    ViewCompat.setOnApplyWindowInsetsListener(this@insetsFlow, listener)
 
-        awaitClose { ViewCompat.setOnApplyWindowInsetsListener(this@insetsFlow, null) }
-    }.conflate()
+    awaitClose { ViewCompat.setOnApplyWindowInsetsListener(this@insetsFlow, null) }
+}.conflate()
 
-fun View.insetsStateFlow(systemArea: SystemArea = SystemArea.Everything): StateFlow<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsStateFlow
+public fun View.insetsStateFlow(systemArea: SystemArea = SystemArea.Everything): StateFlow<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsStateFlow
 
-fun View.insetsChannel(systemArea: SystemArea = SystemArea.Everything): Channel<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsChannel
+public fun View.insetsChannel(systemArea: SystemArea = SystemArea.Everything): Channel<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsChannel
 
-fun View.insetsChannelFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsChannelFlow
+public fun View.insetsChannelFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsChannelFlow

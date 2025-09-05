@@ -38,4 +38,4 @@ import io.github.parkjonghun.edgetoeasy.core.model.SystemArea
  * view.awayFrom(SystemArea.Everything).fillSpace(FillDirection.Horizontal).handleEdgeToEdge()
  * ```
  */
-fun View.awayFrom(systemArea: SystemArea): ViewFillBuilder = ViewFillBuilder(this, systemArea)
+public fun View.awayFrom(systemArea: SystemArea): ViewFillBuilder = ViewFillBuilder(this, systemArea)

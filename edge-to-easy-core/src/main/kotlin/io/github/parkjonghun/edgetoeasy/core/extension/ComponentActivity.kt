@@ -29,7 +29,7 @@ import androidx.annotation.ColorInt
  * activity.setTransparentStatusBarWithBackground(Color.BLUE)
  * ```
  */
-fun ComponentActivity.setTransparentStatusBarWithBackground(
+public fun ComponentActivity.setTransparentStatusBarWithBackground(
     @ColorInt backgroundColor: Int,
 ) {
     enableEdgeToEdge()
@@ -48,7 +48,7 @@ fun ComponentActivity.setTransparentStatusBarWithBackground(
  * activity.enableEdgeToEdgeWithAutoStatusBar(Color.BLACK)
  * ```
  */
-fun ComponentActivity.enableEdgeToEdgeWithAutoStatusBar(
+public fun ComponentActivity.enableEdgeToEdgeWithAutoStatusBar(
     @ColorInt backgroundColor: Int,
 ) {
     // Enable edge-to-edge

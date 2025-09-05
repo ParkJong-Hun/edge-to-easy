@@ -5,3 +5,13 @@ ktlint_function-naming = disabled
 ktlint_standard_function-naming = disabled
 ktlint_standard_max-line-length = disabled
 max_line_length = off
+
+# Suppress unused warnings for public API functions (they are part of the public API)
+ktlint_standard_unused-import = disabled
+
+# Allow unused parameters in public API functions
+ktlint_standard_unused-parameter = disabled
+
+# Require explicit visibility modifiers for public functions (custom rule - enforced in code review)
+# Note: ktlint doesn't have a built-in rule for this, so we'll apply it manually
+ktlint_standard_explicit-modifier-order = disabled

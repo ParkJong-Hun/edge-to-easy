@@ -36,7 +36,7 @@ import io.github.parkjonghun.edgetoeasy.core.model.FillVerticalDirection
  * recyclerView.addSpaceForLastItem(FillVerticalDirection.Bottom)
  * ```
  */
-fun RecyclerView.addSpaceForLastItem(direction: FillVerticalDirection = FillVerticalDirection.Bottom) {
+public fun RecyclerView.addSpaceForLastItem(direction: FillVerticalDirection = FillVerticalDirection.Bottom) {
     addItemDecoration(
         object : RecyclerView.ItemDecoration() {
             override fun getItemOffsets(

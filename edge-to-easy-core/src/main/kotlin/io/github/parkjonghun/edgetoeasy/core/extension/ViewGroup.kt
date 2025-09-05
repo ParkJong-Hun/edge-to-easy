@@ -42,7 +42,7 @@ import io.github.parkjonghun.edgetoeasy.core.util.SystemAreaInsetsMapper
  * constraintLayout.addSystemAreaSpacer(SystemArea.BottomFull)
  * ```
  */
-fun ViewGroup.addSystemAreaSpacer(
+public fun ViewGroup.addSystemAreaSpacer(
     systemArea: SystemArea,
     addToTop: Boolean = false,
 ): View {

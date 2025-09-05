@@ -35,7 +35,7 @@ import io.github.parkjonghun.edgetoeasy.core.util.ColorUtils
  * view.setAutoStatusBarAppearance()
  * ```
  */
-fun View.setAutoStatusBarAppearance() {
+public fun View.setAutoStatusBarAppearance() {
     val activity = findActivity() ?: return
     val backgroundColor = getViewBackgroundColor()
     activity.setAutoStatusBarAppearance(backgroundColor)
@@ -51,7 +51,7 @@ fun View.setAutoStatusBarAppearance() {
  * view.setAutoStatusBarAppearance(Color.BLUE)
  * ```
  */
-fun View.setAutoStatusBarAppearance(
+public fun View.setAutoStatusBarAppearance(
     @ColorInt backgroundColor: Int,
 ) {
     val activity = findActivity() ?: return
@@ -67,7 +67,7 @@ fun View.setAutoStatusBarAppearance(
  * view.enableAutoStatusBarAppearance()
  * ```
  */
-fun View.enableAutoStatusBarAppearance() {
+public fun View.enableAutoStatusBarAppearance() {
     // Set initial appearance
     setAutoStatusBarAppearance()
 
@@ -82,7 +82,7 @@ fun View.enableAutoStatusBarAppearance() {
  *
  * @return true if light status bar content should be used (for dark backgrounds)
  */
-fun View.shouldUseLightStatusBarContent(): Boolean {
+public fun View.shouldUseLightStatusBarContent(): Boolean {
     val backgroundColor = getViewBackgroundColor()
     return ColorUtils.shouldUseLightStatusBar(backgroundColor)
 }
@@ -93,7 +93,7 @@ fun View.shouldUseLightStatusBarContent(): Boolean {
  * @return Color.WHITE for dark backgrounds, Color.BLACK for light backgrounds
  */
 @ColorInt
-fun View.getRecommendedStatusBarContentColor(): Int {
+public fun View.getRecommendedStatusBarContentColor(): Int {
     val backgroundColor = getViewBackgroundColor()
     return ColorUtils.getRecommendedStatusBarColor(backgroundColor)
 }
@@ -105,20 +105,19 @@ fun View.getRecommendedStatusBarContentColor(): Int {
  * @return The view's background color or Color.WHITE as fallback
  */
 @ColorInt
-private fun View.getViewBackgroundColor(): Int =
-    when (val background = this.background) {
-        is ColorDrawable -> background.color
-        null -> {
-            // Try to get color from parent or context
-            (parent as? View)?.let { parentView ->
-                parentView.getViewBackgroundColor()
-            } ?: Color.WHITE
-        }
-        else -> {
-            // Try to extract color from complex drawable
-            extractColorFromDrawable(background) ?: Color.WHITE
-        }
+private fun View.getViewBackgroundColor(): Int = when (val background = this.background) {
+    is ColorDrawable -> background.color
+    null -> {
+        // Try to get color from parent or context
+        (parent as? View)?.let { parentView ->
+            parentView.getViewBackgroundColor()
+        } ?: Color.WHITE
     }
+    else -> {
+        // Try to extract color from complex drawable
+        extractColorFromDrawable(background) ?: Color.WHITE
+    }
+}
 
 /**
  * Attempts to extract a representative color from a drawable.
