@@ -37,7 +37,7 @@ class ViewEdgeBuilder(
      * @param systemArea The system area to create distance from
      * @return ViewFillBuilder for method chaining
      */
-    public fun from(systemArea: SystemArea): ViewFillBuilder = ViewFillBuilder(view, systemArea, chain)
+    public fun awayFrom(systemArea: SystemArea): ViewFillBuilder = ViewFillBuilder(view, systemArea, chain)
 }
 
 /**
