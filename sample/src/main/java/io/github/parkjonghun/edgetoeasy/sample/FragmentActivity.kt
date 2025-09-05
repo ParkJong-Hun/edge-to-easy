@@ -266,7 +266,6 @@ class SampleAdapter : RecyclerView.Adapter<SampleAdapter.ViewHolder>() {
             text = ""
             textSize = 16f
             setPadding(20, 20, 20, 20)
-            setBackgroundColor(if (adapterPosition % 2 == 0) Color.rgb(245, 245, 245) else Color.WHITE)
         }
         return ViewHolder(textView)
     }

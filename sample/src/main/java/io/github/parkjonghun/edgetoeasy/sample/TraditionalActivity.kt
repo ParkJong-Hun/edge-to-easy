@@ -116,7 +116,7 @@ class TraditionalActivity : AppCompatActivity() {
         container.addView(keyboardStatusText)
 
         // Monitor keyboard with Flow
-        editText.insetsFlow(SystemArea.Ime)
+        editText.insetsFlow(SystemArea.IME)
             .map { it.bottom > 0 }
             .distinctUntilChanged()
             .onEach { isKeyboardVisible ->
@@ -129,7 +129,7 @@ class TraditionalActivity : AppCompatActivity() {
             .launchIn(lifecycleScope)
 
         // Apply keyboard handling to edit text
-        editText.awayFrom(SystemArea.Ime)
+        editText.awayFrom(SystemArea.IME)
             .fillSpace(FillDirection.Vertical)
             .continueToOthers()
 
@@ -165,11 +165,12 @@ class TraditionalActivity : AppCompatActivity() {
         container.addView(contentView)
         container.addView(footerView)
 
-        // Chain multiple views together
+        // Apply edge handling to individual views
         headerView.awayFrom(SystemArea.StatusBar)
             .fillSpace(FillDirection.Vertical)
-            .then(footerView)
-            .awayFrom(SystemArea.NavigationBar)
+            .handleEdgeToEdge()
+            
+        footerView.awayFrom(SystemArea.NavigationBar)
             .fillSpace(FillDirection.Vertical)
             .handleEdgeToEdge()
 

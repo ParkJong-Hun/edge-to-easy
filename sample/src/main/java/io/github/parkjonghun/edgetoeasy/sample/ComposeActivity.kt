@@ -17,8 +17,6 @@ package io.github.parkjonghun.edgetoeasy.sample
 
 import android.graphics.Color
 import android.os.Bundle
-import android.view.ViewGroup
-import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.background
@@ -42,13 +40,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
@@ -56,15 +51,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.viewinterop.AndroidView
-import androidx.core.graphics.Insets
 import io.github.parkjonghun.edgetoeasy.core.extension.enableEdgeToEdgeWithAutoStatusBar
 import io.github.parkjonghun.edgetoeasy.core.extension.setAutoStatusBarAppearance
-import io.github.parkjonghun.edgetoeasy.core.model.SystemArea
-import io.github.parkjonghun.edgetoeasy.flow.extension.insetsFlow
-import io.github.parkjonghun.edgetoeasy.flow.extension.insetsStateFlow
 import io.github.parkjonghun.edgetoeasy.sample.ui.theme.EdgeToEasySampleTheme
-import kotlinx.coroutines.flow.map
 
 /**
  * Compose Activity demonstrating how to use the Edge to Easy library
@@ -166,82 +155,29 @@ fun ComposeScreen() {
             }
         }
 
-        // Section 2: Insets Monitoring in Compose
-        SectionTitle("2. Insets Monitoring in Compose")
+        // Section 2: Text Input Example
+        SectionTitle("2. Text Input with Compose")
 
-        AndroidView(
-            factory = { context ->
-                TextView(context).apply {
-                    text = "Monitoring insets..."
-                    setPadding(20, 20, 20, 20)
-                    setBackgroundColor(Color.rgb(240, 248, 255))
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp),
-        ) { textView ->
-            // Monitor insets using StateFlow
-            LaunchedEffect(textView) {
-                textView.insetsStateFlow(SystemArea.Everything)
-                    .collect { insets ->
-                        textView.text = "All Insets: L=${insets.left}, T=${insets.top}, R=${insets.right}, B=${insets.bottom}"
-                    }
-            }
-        }
-
-        // Section 3: Keyboard Monitoring
-        SectionTitle("3. Keyboard (IME) Monitoring")
-
-        var keyboardStatus by remember { mutableStateOf("Hidden") }
         var textInput by remember { mutableStateOf("") }
-
-        AndroidView(
-            factory = { context ->
-                TextView(context).apply {
-                    layoutParams = ViewGroup.LayoutParams(
-                        ViewGroup.LayoutParams.MATCH_PARENT,
-                        ViewGroup.LayoutParams.WRAP_CONTENT,
-                    )
-                    setPadding(20, 20, 20, 20)
-                    setBackgroundColor(Color.rgb(255, 248, 220))
-                }
-            },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
-        ) { textView ->
-            // Monitor keyboard with Flow
-            LaunchedEffect(textView) {
-                textView.insetsFlow(SystemArea.Ime)
-                    .map { it.bottom > 0 }
-                    .collect { isKeyboardVisible ->
-                        keyboardStatus = if (isKeyboardVisible) "VISIBLE" else "HIDDEN"
-                        textView.text = "Keyboard Status: $keyboardStatus"
-                    }
-            }
-        }
 
         TextField(
             value = textInput,
             onValueChange = { textInput = it },
-            label = { Text("Type here to show keyboard") },
+            label = { Text("Type here to test edge-to-edge") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Text),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 16.dp),
         )
 
-        // Section 4: System Areas Monitoring
-        SectionTitle("4. Individual System Areas")
+        Text(
+            text = "Note: For detailed insets monitoring examples, check the 'Flow Examples' and 'Traditional Activity' screens.",
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(bottom = 16.dp)
+        )
 
-        SystemAreaMonitor("Status Bar", SystemArea.StatusBar)
-        SystemAreaMonitor("Navigation Bar", SystemArea.NavigationBar)
-        SystemAreaMonitor("IME (Keyboard)", SystemArea.Ime)
-        SystemAreaMonitor("Cutout", SystemArea.Cutout)
-
-        // Section 5: LazyColumn with Insets
-        SectionTitle("5. LazyColumn Example")
+        // Section 3: LazyColumn Example  
+        SectionTitle("3. LazyColumn Example")
 
         LazyColumn(
             modifier = Modifier
@@ -264,6 +200,12 @@ fun ComposeScreen() {
             }
         }
 
+        Text(
+            text = "The LazyColumn automatically handles edge-to-edge display with proper padding.",
+            style = MaterialTheme.typography.bodySmall,
+            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
+        )
+
         // Add some bottom spacing
         Spacer(modifier = Modifier.height(50.dp))
     }
@@ -277,30 +219,6 @@ fun SectionTitle(title: String) {
         fontWeight = FontWeight.Bold,
         modifier = Modifier.padding(vertical = 16.dp),
     )
-}
-
-@Composable
-fun SystemAreaMonitor(label: String, systemArea: SystemArea) {
-    AndroidView(
-        factory = { context ->
-            TextView(context).apply {
-                text = "$label: Waiting..."
-                setPadding(16, 12, 16, 12)
-                setBackgroundColor(Color.rgb(245, 245, 245))
-                textSize = 12f
-            }
-        },
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(bottom = 4.dp),
-    ) { textView ->
-        LaunchedEffect(textView) {
-            textView.insetsStateFlow(systemArea)
-                .collect { insets ->
-                    textView.text = "$label: L=${insets.left}, T=${insets.top}, R=${insets.right}, B=${insets.bottom}"
-                }
-        }
-    }
 }
 
 @Preview(showBackground = true)

@@ -88,7 +88,7 @@ class FlowExamplesActivity : ComponentActivity() {
         container.addView(stateFlowStatusText)
 
         // Monitor keyboard insets with StateFlow
-        val keyboardStateFlow = container.insetsStateFlow(SystemArea.Ime)
+        val keyboardStateFlow = container.insetsStateFlow(SystemArea.IME)
         stateFlowStatusText.text = "StateFlow - Current Keyboard: ${keyboardStateFlow.value}"
 
         keyboardStateFlow
@@ -142,7 +142,7 @@ class FlowExamplesActivity : ComponentActivity() {
         container.addView(createSectionTitle("6. All System Areas Monitor"))
         addSystemAreaMonitor(container, "Status Bar", SystemArea.StatusBar)
         addSystemAreaMonitor(container, "Navigation Bar", SystemArea.NavigationBar)
-        addSystemAreaMonitor(container, "IME", SystemArea.Ime)
+        addSystemAreaMonitor(container, "IME", SystemArea.IME)
         addSystemAreaMonitor(container, "Cutout", SystemArea.Cutout)
 
         // Add some padding at bottom
