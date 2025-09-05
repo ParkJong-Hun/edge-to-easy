@@ -31,15 +31,49 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.receiveAsFlow
 
+/**
+ * Provider class that manages StateFlow and Channel instances for WindowInsets updates.
+ * This class efficiently manages insets monitoring by reusing providers for the same view-systemArea combination.
+ * It automatically handles lifecycle management by cleaning up resources when views are detached.
+ *
+ * The provider creates and manages:
+ * - A StateFlow that holds the current insets value and emits updates
+ * - A Channel with unlimited capacity that receives all insets updates
+ * - A Flow from the Channel for backpressure-free consumption
+ *
+ * Key features:
+ * - Automatic lifecycle management (cleanup when view detached)
+ * - Singleton pattern per (View, SystemArea) combination
+ * - Immediate current value availability through StateFlow
+ * - Unlimited buffering through Channel to prevent dropped updates
+ *
+ * @param view The View to monitor for insets changes
+ * @param systemArea The specific system area to track (defaults to SystemBar)
+ */
 class InsetsFlowProvider private constructor(
     private val view: View,
     private val systemArea: SystemArea = SystemArea.SystemBar,
 ) {
     private val _insetsStateFlow = MutableStateFlow(getCurrentInsets())
+
+    /**
+     * StateFlow that holds the current WindowInsets value and emits updates when insets change.
+     * Always has a current value available immediately via StateFlow.value.
+     */
     val insetsStateFlow: StateFlow<Insets> = _insetsStateFlow.asStateFlow()
 
     private val _insetsChannel = Channel<Insets>(Channel.UNLIMITED)
+
+    /**
+     * Channel that receives WindowInsets updates. Has unlimited capacity to ensure no updates are dropped.
+     * Use this for direct Channel operations like consuming in a for loop.
+     */
     val insetsChannel: Channel<Insets> = _insetsChannel
+
+    /**
+     * Flow created from the Channel that receives WindowInsets updates.
+     * Provides backpressure-free consumption with unlimited buffering.
+     */
     val insetsChannelFlow: Flow<Insets> = _insetsChannel.receiveAsFlow()
 
     private var listener: OnApplyWindowInsetsListener? = null
@@ -48,11 +82,19 @@ class InsetsFlowProvider private constructor(
         setupInsetsListener()
     }
 
+    /**
+     * Gets the current WindowInsets for the specified system area.
+     * Returns Insets.NONE if no window insets are available.
+     */
     private fun getCurrentInsets(): Insets {
         val windowInsets = ViewCompat.getRootWindowInsets(view)
         return windowInsets?.let { SystemAreaInsetsMapper.getInsetsForSystemArea(it, systemArea) } ?: Insets.NONE
     }
 
+    /**
+     * Sets up the WindowInsets listener that updates both StateFlow and Channel
+     * when insets change. Also sends the initial insets value to the Channel.
+     */
     private fun setupInsetsListener() {
         listener =
             OnApplyWindowInsetsListener { _, insets ->
@@ -67,7 +109,11 @@ class InsetsFlowProvider private constructor(
         _insetsChannel.trySend(getCurrentInsets())
     }
 
-    fun destroy() {
+    /**
+     * Cleans up resources by removing the insets listener and closing the Channel.
+     * Called automatically when the view is detached from window.
+     */
+    public fun destroy() {
         ViewCompat.setOnApplyWindowInsetsListener(view, null)
         listener = null
         _insetsChannel.close()
@@ -76,7 +122,21 @@ class InsetsFlowProvider private constructor(
     companion object {
         private val providers = mutableMapOf<Pair<View, SystemArea>, InsetsFlowProvider>()
 
-        fun getOrCreate(
+        /**
+         * Gets an existing InsetsFlowProvider for the specified view and system area,
+         * or creates a new one if none exists. This ensures efficient resource usage
+         * by reusing providers for the same view-systemArea combination.
+         *
+         * The provider automatically manages its lifecycle:
+         * - It's created when first requested for a view-systemArea pair
+         * - It's automatically destroyed and removed when the view is detached from window
+         * - Multiple calls with the same parameters return the same provider instance
+         *
+         * @param view The View to monitor for insets changes
+         * @param systemArea The specific system area to track (defaults to SystemBar)
+         * @return InsetsFlowProvider instance for the specified view and system area
+         */
+        public fun getOrCreate(
             view: View,
             systemArea: SystemArea = SystemArea.SystemBar,
         ): InsetsFlowProvider {
