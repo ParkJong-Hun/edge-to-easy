@@ -19,5 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-include(":edge-to-easy")
+include(":edge-to-easy-core")
+include(":edge-to-easy-flow")
 include(":sample")
