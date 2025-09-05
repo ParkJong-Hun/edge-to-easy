@@ -16,13 +16,8 @@
 package io.github.parkjonghun.edgetoeasy.core.extension
 
 import android.view.View
-import android.view.ViewGroup
-import androidx.core.graphics.Insets
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
 import io.github.parkjonghun.edgetoeasy.core.dsl.ViewFillBuilder
 import io.github.parkjonghun.edgetoeasy.core.model.SystemArea
-import io.github.parkjonghun.edgetoeasy.core.util.SystemAreaInsetsMapper
 
 /**
  * Creates space between the view and the specified system area.
@@ -44,52 +39,3 @@ import io.github.parkjonghun.edgetoeasy.core.util.SystemAreaInsetsMapper
  * ```
  */
 fun View.awayFrom(systemArea: SystemArea): ViewFillBuilder = ViewFillBuilder(this, systemArea)
-
-/**
- * Adds a spacer view to a ViewGroup with height determined by the specified SystemArea's insets.
- * The height will be set to the maximum of top and bottom insets from the specified system area.
- * This is useful for creating space in layouts to avoid system UI overlap.
- *
- * @param systemArea The system area to use for determining the spacer height
- * @param addToTop If true, adds the spacer to the beginning (index 0), otherwise to the end (default: false)
- * @return The created spacer view that was added to the ViewGroup
- *
- * Usage examples:
- * ```kotlin
- * // Add spacer at the end (default)
- * linearLayout.addSystemAreaSpacer(SystemArea.NavigationBar)
- *
- * // Add spacer at the beginning
- * linearLayout.addSystemAreaSpacer(SystemArea.StatusBar, addToTop = true)
- *
- * // Add spacer for full bottom area (navigation bar + cutout)
- * constraintLayout.addSystemAreaSpacer(SystemArea.BottomFull)
- * ```
- */
-fun ViewGroup.addSystemAreaSpacer(
-    systemArea: SystemArea,
-    addToTop: Boolean = false,
-): View {
-    val spacerView = View(context)
-
-    // Add the spacer view to the ViewGroup at the specified position
-    if (addToTop) {
-        addView(spacerView, 0)
-    } else {
-        addView(spacerView)
-    }
-
-    // Set up window insets listener to adjust height based on system area
-    ViewCompat.setOnApplyWindowInsetsListener(spacerView) { view, insets ->
-        val systemInsets = SystemAreaInsetsMapper.getInsetsForSystemArea(insets, systemArea)
-
-        // Set the height of the spacer view based on the maximum of top and bottom insets
-        val layoutParams = view.layoutParams
-        layoutParams.height = maxOf(systemInsets.top, systemInsets.bottom)
-        view.layoutParams = layoutParams
-
-        insets
-    }
-
-    return spacerView
-}
