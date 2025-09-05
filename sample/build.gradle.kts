@@ -1,3 +1,6 @@
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
@@ -46,6 +49,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
+    tasks.withType<KotlinCompile> {
+        compilerOptions {
+            jvmTarget.set(JvmTarget.JVM_17)
+        }
+    }
+
     buildFeatures {
         compose = true
     }
@@ -59,6 +68,7 @@ android {
 
 dependencies {
     implementation(project(":edge-to-easy-core"))
+    implementation(project(":edge-to-easy-flow"))
     implementation(libs.bundles.androidx.app)
     implementation(libs.bundles.compose)
     implementation(platform(libs.androidx.compose.bom))
