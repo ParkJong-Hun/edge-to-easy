@@ -169,7 +169,7 @@ class TraditionalActivity : AppCompatActivity() {
         headerView.awayFrom(SystemArea.StatusBar)
             .fillSpace(FillDirection.Vertical)
             .handleEdgeToEdge()
-            
+
         footerView.awayFrom(SystemArea.NavigationBar)
             .fillSpace(FillDirection.Vertical)
             .handleEdgeToEdge()

@@ -173,10 +173,10 @@ fun ComposeScreen() {
         Text(
             text = "Note: For detailed insets monitoring examples, check the 'Flow Examples' and 'Traditional Activity' screens.",
             style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(bottom = 16.dp)
+            modifier = Modifier.padding(bottom = 16.dp),
         )
 
-        // Section 3: LazyColumn Example  
+        // Section 3: LazyColumn Example
         SectionTitle("3. LazyColumn Example")
 
         LazyColumn(
@@ -203,7 +203,7 @@ fun ComposeScreen() {
         Text(
             text = "The LazyColumn automatically handles edge-to-edge display with proper padding.",
             style = MaterialTheme.typography.bodySmall,
-            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp)
+            modifier = Modifier.padding(top = 8.dp, bottom = 16.dp),
         )
 
         // Add some bottom spacing
