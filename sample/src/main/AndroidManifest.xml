@@ -24,6 +24,12 @@
         <activity
             android:name=".FragmentActivity"
             android:theme="@style/Theme.EdgeToEasySample" />
+        <activity
+            android:name=".FlowExamplesActivity"
+            android:theme="@style/Theme.EdgeToEasySample" />
+        <activity
+            android:name=".StatusBarExamplesActivity"
+            android:theme="@style/Theme.EdgeToEasySample" />
     </application>
 
 </manifest>

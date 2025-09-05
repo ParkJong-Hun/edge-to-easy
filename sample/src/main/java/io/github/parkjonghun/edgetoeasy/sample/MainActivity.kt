@@ -63,6 +63,12 @@ class MainActivity : ComponentActivity() {
                         onFragmentClick = {
                             startActivity(Intent(this@MainActivity, FragmentActivity::class.java))
                         },
+                        onFlowExamplesClick = {
+                            startActivity(Intent(this@MainActivity, FlowExamplesActivity::class.java))
+                        },
+                        onStatusBarExamplesClick = {
+                            startActivity(Intent(this@MainActivity, StatusBarExamplesActivity::class.java))
+                        },
                     )
                 }
             }
@@ -75,6 +81,8 @@ fun MainScreen(
     onTraditionalClick: () -> Unit,
     onComposeClick: () -> Unit,
     onFragmentClick: () -> Unit,
+    onFlowExamplesClick: () -> Unit = {},
+    onStatusBarExamplesClick: () -> Unit = {},
 ) {
     Column(
         modifier =
@@ -118,9 +126,23 @@ fun MainScreen(
 
         Button(
             onClick = onFragmentClick,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
         ) {
             Text("Fragment Activity")
+        }
+
+        Button(
+            onClick = onFlowExamplesClick,
+            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+        ) {
+            Text("Flow Examples")
+        }
+
+        Button(
+            onClick = onStatusBarExamplesClick,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("Status Bar Examples")
         }
     }
 }
@@ -133,6 +155,8 @@ fun MainScreenPreview() {
             onTraditionalClick = {},
             onComposeClick = {},
             onFragmentClick = {},
+            onFlowExamplesClick = {},
+            onStatusBarExamplesClick = {},
         )
     }
 }
