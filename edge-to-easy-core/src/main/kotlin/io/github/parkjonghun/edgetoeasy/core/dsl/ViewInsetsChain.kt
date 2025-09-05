@@ -17,7 +17,6 @@ package io.github.parkjonghun.edgetoeasy.core.dsl
 
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import io.github.parkjonghun.edgetoeasy.core.model.FillDirection
@@ -108,6 +107,7 @@ class ViewInsetsChain(
                     SpacingType.PADDING -> {
                         v.setPadding(spacingLeft, spacingTop, spacingRight, spacingBottom)
                     }
+
                     SpacingType.MARGIN -> {
                         val layoutParams = v.layoutParams
                         if (layoutParams is ViewGroup.MarginLayoutParams) {

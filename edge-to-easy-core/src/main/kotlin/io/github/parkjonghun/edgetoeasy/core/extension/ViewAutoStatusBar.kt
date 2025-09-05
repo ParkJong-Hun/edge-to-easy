@@ -16,7 +16,6 @@
 package io.github.parkjonghun.edgetoeasy.core.extension
 
 import android.app.Activity
-import android.content.Context
 import android.content.ContextWrapper
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -113,6 +112,7 @@ private fun View.getViewBackgroundColor(): Int = when (val background = this.bac
             parentView.getViewBackgroundColor()
         } ?: Color.WHITE
     }
+
     else -> {
         // Try to extract color from complex drawable
         extractColorFromDrawable(background) ?: Color.WHITE

@@ -22,13 +22,10 @@ import androidx.core.view.ViewCompat
 import io.github.parkjonghun.edgetoeasy.core.model.SystemArea
 import io.github.parkjonghun.edgetoeasy.core.util.SystemAreaInsetsMapper
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.conflate
 import kotlinx.coroutines.flow.receiveAsFlow
 
 /**
