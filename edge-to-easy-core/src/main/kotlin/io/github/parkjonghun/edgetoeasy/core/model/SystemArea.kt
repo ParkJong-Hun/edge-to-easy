@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.parkjonghun.edgetoeasy.model
+package io.github.parkjonghun.edgetoeasy.core.model
 
 /**
  * Represents different areas of the system UI on an Android device.

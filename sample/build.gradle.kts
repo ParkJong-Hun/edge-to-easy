@@ -58,7 +58,7 @@ android {
 }
 
 dependencies {
-    implementation(project(":edge-to-easy"))
+    implementation(project(":edge-to-easy-core"))
     implementation(libs.bundles.androidx.app)
     implementation(libs.bundles.compose)
     implementation(platform(libs.androidx.compose.bom))

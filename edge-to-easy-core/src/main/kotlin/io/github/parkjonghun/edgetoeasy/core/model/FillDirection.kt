@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.parkjonghun.edgetoeasy.model
+package io.github.parkjonghun.edgetoeasy.core.model
 
 /**
  * Represents the directions in which a view should fill the available space.

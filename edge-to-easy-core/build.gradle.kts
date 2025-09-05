@@ -9,7 +9,7 @@ group = "io.github.parkjonghun"
 version = "0.0.1"
 
 android {
-    namespace = "io.github.parkjonghun.edgetoeasy"
+    namespace = "io.github.parkjonghun.edgetoeasy.core"
     compileSdk =
         libs.versions.compile.sdk
             .get()
@@ -86,8 +86,8 @@ afterEvaluate {
                     }
 
                     scm {
-                        connection.set("scm:git:git://github.com/parkjonghun/edge-to-easy.git")
-                        developerConnection.set("scm:git:ssh://github.com:parkjonghun/edge-to-easy.git")
+                        connection.set("scm:git:git://github.com/parkjonghun/edge-to-easy-core.git")
+                        developerConnection.set("scm:git:ssh://github.com:parkjonghun/edge-to-easy-core.git")
                         url.set("https://github.com/parkjonghun/edge-to-easy")
                     }
                 }

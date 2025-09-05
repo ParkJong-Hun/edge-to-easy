@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.parkjonghun.edgetoeasy.dsl
+package io.github.parkjonghun.edgetoeasy.core.dsl
 
 import android.view.View
-import io.github.parkjonghun.edgetoeasy.model.FillDirection
-import io.github.parkjonghun.edgetoeasy.model.SpacingType
-import io.github.parkjonghun.edgetoeasy.model.SystemArea
+import io.github.parkjonghun.edgetoeasy.core.model.FillDirection
+import io.github.parkjonghun.edgetoeasy.core.model.SpacingType
+import io.github.parkjonghun.edgetoeasy.core.model.SystemArea
 
 /**
  * Builder class for creating edge-to-edge configurations starting from a system area.

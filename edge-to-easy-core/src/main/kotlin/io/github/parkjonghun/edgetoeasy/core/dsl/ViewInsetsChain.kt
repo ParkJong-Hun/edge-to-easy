@@ -13,16 +13,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.parkjonghun.edgetoeasy.dsl
+package io.github.parkjonghun.edgetoeasy.core.dsl
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import io.github.parkjonghun.edgetoeasy.model.FillDirection
-import io.github.parkjonghun.edgetoeasy.model.SpacingType
-import io.github.parkjonghun.edgetoeasy.model.SystemArea
+import io.github.parkjonghun.edgetoeasy.core.model.FillDirection
+import io.github.parkjonghun.edgetoeasy.core.model.SpacingType
+import io.github.parkjonghun.edgetoeasy.core.model.SystemArea
+import io.github.parkjonghun.edgetoeasy.core.util.SystemAreaInsetsMapper
 
 /**
  * Chain class for handling multiple views with insets in sequence.
@@ -96,44 +97,7 @@ class ViewInsetsChain(
 
         views.forEach { config ->
             ViewCompat.setOnApplyWindowInsetsListener(config.view) { v, insets ->
-                val systemBars =
-                    when (config.systemArea) {
-                        SystemArea.SystemBar, SystemArea.Everything -> insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                        SystemArea.StatusBar, SystemArea.Top -> insets.getInsets(WindowInsetsCompat.Type.statusBars())
-                        SystemArea.NavigationBar -> insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                        SystemArea.Bottom -> {
-                            val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                            val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-                            Insets.of(
-                                maxOf(navBar.left, ime.left),
-                                maxOf(navBar.top, ime.top),
-                                maxOf(navBar.right, ime.right),
-                                maxOf(navBar.bottom, ime.bottom),
-                            )
-                        }
-                        SystemArea.IME -> insets.getInsets(WindowInsetsCompat.Type.ime())
-                        SystemArea.Cutout -> insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                        SystemArea.TopFull -> {
-                            val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
-                            val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                            Insets.of(
-                                maxOf(statusBar.left, cutout.left),
-                                maxOf(statusBar.top, cutout.top),
-                                maxOf(statusBar.right, cutout.right),
-                                statusBar.bottom,
-                            )
-                        }
-                        SystemArea.BottomFull -> {
-                            val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                            val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                            Insets.of(
-                                maxOf(navBar.left, cutout.left),
-                                navBar.top,
-                                maxOf(navBar.right, cutout.right),
-                                maxOf(navBar.bottom, cutout.bottom),
-                            )
-                        }
-                    }
+                val systemBars = SystemAreaInsetsMapper.getInsetsForSystemArea(insets, config.systemArea)
 
                 val spacingLeft = if (config.direction.left) systemBars.left else 0
                 val spacingTop = if (config.direction.top) systemBars.top else 0

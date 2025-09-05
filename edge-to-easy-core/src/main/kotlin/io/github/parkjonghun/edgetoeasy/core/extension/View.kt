@@ -13,16 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.parkjonghun.edgetoeasy.extension
+package io.github.parkjonghun.edgetoeasy.core.extension
 
-import android.content.Context
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.graphics.Insets
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import io.github.parkjonghun.edgetoeasy.dsl.ViewFillBuilder
-import io.github.parkjonghun.edgetoeasy.model.SystemArea
+import io.github.parkjonghun.edgetoeasy.core.dsl.ViewFillBuilder
+import io.github.parkjonghun.edgetoeasy.core.model.SystemArea
+import io.github.parkjonghun.edgetoeasy.core.util.SystemAreaInsetsMapper
 
 /**
  * Creates space between the view and the specified system area.
@@ -81,56 +81,7 @@ fun ViewGroup.addSystemAreaSpacer(
 
     // Set up window insets listener to adjust height based on system area
     ViewCompat.setOnApplyWindowInsetsListener(spacerView) { view, insets ->
-        val systemInsets =
-            when (systemArea) {
-                SystemArea.SystemBar -> insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                SystemArea.StatusBar, SystemArea.Top -> insets.getInsets(WindowInsetsCompat.Type.statusBars())
-                SystemArea.NavigationBar -> insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                SystemArea.Bottom -> {
-                    val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                    val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-                    Insets.of(
-                        maxOf(navBar.left, ime.left),
-                        maxOf(navBar.top, ime.top),
-                        maxOf(navBar.right, ime.right),
-                        maxOf(navBar.bottom, ime.bottom),
-                    )
-                }
-                SystemArea.IME -> insets.getInsets(WindowInsetsCompat.Type.ime())
-                SystemArea.Cutout -> insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                SystemArea.Everything -> {
-                    val systemBar = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-                    val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                    val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-                    Insets.of(
-                        maxOf(systemBar.left, cutout.left, ime.left),
-                        maxOf(systemBar.top, cutout.top, ime.top),
-                        maxOf(systemBar.right, cutout.right, ime.right),
-                        maxOf(systemBar.bottom, cutout.bottom, ime.bottom),
-                    )
-                }
-                SystemArea.TopFull -> {
-                    val statusBar = insets.getInsets(WindowInsetsCompat.Type.statusBars())
-                    val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                    Insets.of(
-                        maxOf(statusBar.left, cutout.left),
-                        maxOf(statusBar.top, cutout.top),
-                        maxOf(statusBar.right, cutout.right),
-                        statusBar.bottom,
-                    )
-                }
-                SystemArea.BottomFull -> {
-                    val navBar = insets.getInsets(WindowInsetsCompat.Type.navigationBars())
-                    val cutout = insets.getInsets(WindowInsetsCompat.Type.displayCutout())
-                    val ime = insets.getInsets(WindowInsetsCompat.Type.ime())
-                    Insets.of(
-                        maxOf(navBar.left, cutout.left, ime.left),
-                        navBar.top,
-                        maxOf(navBar.right, cutout.right, ime.right),
-                        maxOf(navBar.bottom, cutout.bottom, ime.bottom),
-                    )
-                }
-            }
+        val systemInsets = SystemAreaInsetsMapper.getInsetsForSystemArea(insets, systemArea)
 
         // Set the height of the spacer view based on the maximum of top and bottom insets
         val layoutParams = view.layoutParams

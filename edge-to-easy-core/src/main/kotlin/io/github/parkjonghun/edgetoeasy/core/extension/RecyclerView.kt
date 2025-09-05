@@ -13,14 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package io.github.parkjonghun.edgetoeasy.extension
+package io.github.parkjonghun.edgetoeasy.core.extension
 
 import android.graphics.Rect
 import android.view.View
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.RecyclerView
-import io.github.parkjonghun.edgetoeasy.model.FillVerticalDirection
+import io.github.parkjonghun.edgetoeasy.core.model.FillVerticalDirection
 
 /**
  * Adds space for the last item in the RecyclerView to avoid overlap with system UI elements
