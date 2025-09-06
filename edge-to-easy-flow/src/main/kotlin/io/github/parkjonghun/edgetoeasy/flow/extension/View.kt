@@ -17,17 +17,12 @@ package io.github.parkjonghun.edgetoeasy.flow.extension
 
 import android.view.View
 import androidx.core.graphics.Insets
-import androidx.core.view.OnApplyWindowInsetsListener
-import androidx.core.view.ViewCompat
 import io.github.parkjonghun.edgetoeasy.core.model.SystemArea
-import io.github.parkjonghun.edgetoeasy.core.util.SystemAreaInsetsMapper
 import io.github.parkjonghun.edgetoeasy.flow.provider.InsetsFlowProvider
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.callbackFlow
-import kotlinx.coroutines.flow.conflate
+import kotlinx.coroutines.flow.receiveAsFlow
 
 /**
  * Creates a Flow that emits WindowInsets for the specified system area whenever they change.
@@ -64,25 +59,7 @@ import kotlinx.coroutines.flow.conflate
  *     .launchIn(lifecycleScope)
  * ```
  */
-public fun View.insetsFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets> = callbackFlow {
-    val listener =
-        OnApplyWindowInsetsListener { _, insets ->
-            val targetInsets = SystemAreaInsetsMapper.getInsetsForSystemArea(insets, systemArea)
-            trySend(targetInsets)
-            insets
-        }
-
-    val currentInsets =
-        ViewCompat
-            .getRootWindowInsets(this@insetsFlow)
-            ?.let { SystemAreaInsetsMapper.getInsetsForSystemArea(it, systemArea) }
-            ?: Insets.NONE
-    trySend(currentInsets)
-
-    ViewCompat.setOnApplyWindowInsetsListener(this@insetsFlow, listener)
-
-    awaitClose { ViewCompat.setOnApplyWindowInsetsListener(this@insetsFlow, null) }
-}.conflate()
+public fun View.insetsFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets> = InsetsFlowProvider.getOrCreate(this).getFlow(systemArea)
 
 /**
  * Creates a StateFlow that holds the current WindowInsets for the specified system area
@@ -117,7 +94,7 @@ public fun View.insetsFlow(systemArea: SystemArea = SystemArea.Everything): Flow
  *     .launchIn(lifecycleScope)
  * ```
  */
-public fun View.insetsStateFlow(systemArea: SystemArea = SystemArea.Everything): StateFlow<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsStateFlow
+public fun View.insetsStateFlow(systemArea: SystemArea = SystemArea.Everything): StateFlow<Insets> = InsetsFlowProvider.getOrCreate(this).getStateFlow(systemArea)
 
 /**
  * Creates a Channel that receives WindowInsets updates for the specified system area.
@@ -152,7 +129,7 @@ public fun View.insetsStateFlow(systemArea: SystemArea = SystemArea.Everything):
  * }
  * ```
  */
-public fun View.insetsChannel(systemArea: SystemArea = SystemArea.Everything): Channel<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsChannel
+public fun View.insetsChannel(systemArea: SystemArea = SystemArea.Everything): Channel<Insets> = InsetsFlowProvider.getOrCreate(this).getChannel(systemArea)
 
 /**
  * Creates a Flow from a Channel that receives WindowInsets updates for the specified system area.
@@ -192,4 +169,4 @@ public fun View.insetsChannel(systemArea: SystemArea = SystemArea.Everything): C
  * }.launchIn(lifecycleScope)
  * ```
  */
-public fun View.insetsChannelFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets> = InsetsFlowProvider.getOrCreate(this, systemArea).insetsChannelFlow
+public fun View.insetsChannelFlow(systemArea: SystemArea = SystemArea.Everything): Flow<Insets> = InsetsFlowProvider.getOrCreate(this).getChannel(systemArea).receiveAsFlow()

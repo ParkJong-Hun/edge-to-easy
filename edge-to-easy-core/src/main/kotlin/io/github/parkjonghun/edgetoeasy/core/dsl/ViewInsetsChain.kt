@@ -32,7 +32,7 @@ class ViewInsetsChain(
     private val views: MutableList<ViewInsetsConfig> = mutableListOf(),
 ) {
     constructor(view: View, systemArea: SystemArea, direction: FillDirection, spacingType: SpacingType = SpacingType.MARGIN) : this() {
-        views.add(ViewInsetsConfig(view, systemArea, direction, spacingType))
+        views.add(ViewInsetsConfig(view, systemArea, direction, spacingType, shouldConsumeInsets = false))
     }
 
     /**
@@ -66,7 +66,9 @@ class ViewInsetsChain(
      * ```
      */
     public fun handleEdgeToEdge() {
-        applyInsetsToViews(consumeInsets = true)
+        // Mark all views in chain to consume insets when handleEdgeToEdge() is called
+        views.forEach { it.shouldConsumeInsets = true }
+        applyInsetsToViews()
     }
 
     /**
@@ -79,7 +81,8 @@ class ViewInsetsChain(
      * ```
      */
     public fun continueToOthers() {
-        applyInsetsToViews(consumeInsets = false)
+        // Keep shouldConsumeInsets = false for all views when continueToOthers() is called
+        applyInsetsToViews()
     }
 
     internal fun addView(
@@ -88,10 +91,10 @@ class ViewInsetsChain(
         direction: FillDirection,
         spacingType: SpacingType = SpacingType.MARGIN,
     ) {
-        views.add(ViewInsetsConfig(view, systemArea, direction, spacingType))
+        views.add(ViewInsetsConfig(view, systemArea, direction, spacingType, shouldConsumeInsets = false))
     }
 
-    private fun applyInsetsToViews(consumeInsets: Boolean) {
+    private fun applyInsetsToViews() {
         if (views.isEmpty()) return
 
         views.forEach { config ->
@@ -120,7 +123,8 @@ class ViewInsetsChain(
                     }
                 }
 
-                if (consumeInsets && config == views.last()) {
+                // Consume insets only if this specific view config should consume insets
+                if (config.shouldConsumeInsets) {
                     WindowInsetsCompat.CONSUMED
                 } else {
                     insets
@@ -134,5 +138,6 @@ class ViewInsetsChain(
         val systemArea: SystemArea,
         val direction: FillDirection,
         val spacingType: SpacingType = SpacingType.MARGIN,
+        var shouldConsumeInsets: Boolean = false,
     )
 }

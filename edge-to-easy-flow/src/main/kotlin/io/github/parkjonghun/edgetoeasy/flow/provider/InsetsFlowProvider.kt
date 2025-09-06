@@ -22,142 +22,173 @@ import androidx.core.view.ViewCompat
 import io.github.parkjonghun.edgetoeasy.core.model.SystemArea
 import io.github.parkjonghun.edgetoeasy.core.util.SystemAreaInsetsMapper
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.launch
 
 /**
- * Provider class that manages StateFlow and Channel instances for WindowInsets updates.
- * This class efficiently manages insets monitoring by reusing providers for the same view-systemArea combination.
- * It automatically handles lifecycle management by cleaning up resources when views are detached.
- *
- * The provider creates and manages:
- * - A StateFlow that holds the current insets value and emits updates
- * - A Channel with unlimited capacity that receives all insets updates
- * - A Flow from the Channel for backpressure-free consumption
- *
- * Key features:
- * - Automatic lifecycle management (cleanup when view detached)
- * - Singleton pattern per (View, SystemArea) combination
- * - Immediate current value availability through StateFlow
- * - Unlimited buffering through Channel to prevent dropped updates
- *
- * @param view The View to monitor for insets changes
- * @param systemArea The specific system area to track (defaults to SystemBar)
+ * Shared provider that manages multiple flows for the same view with a single WindowInsets listener.
+ * This prevents listener conflicts when multiple flows are created for the same view.
  */
 class InsetsFlowProvider private constructor(
     private val view: View,
-    private val systemArea: SystemArea = SystemArea.SystemBar,
 ) {
-    private val _insetsStateFlow = MutableStateFlow(getCurrentInsets())
-
-    /**
-     * StateFlow that holds the current WindowInsets value and emits updates when insets change.
-     * Always has a current value available immediately via StateFlow.value.
-     */
-    val insetsStateFlow: StateFlow<Insets> = _insetsStateFlow.asStateFlow()
-
-    private val _insetsChannel = Channel<Insets>(Channel.UNLIMITED)
-
-    /**
-     * Channel that receives WindowInsets updates. Has unlimited capacity to ensure no updates are dropped.
-     * Use this for direct Channel operations like consuming in a for loop.
-     */
-    val insetsChannel: Channel<Insets> = _insetsChannel
-
-    /**
-     * Flow created from the Channel that receives WindowInsets updates.
-     * Provides backpressure-free consumption with unlimited buffering.
-     */
-    val insetsChannelFlow: Flow<Insets> = _insetsChannel.receiveAsFlow()
-
+    // Map of SystemArea to their respective channels/flows
+    private val areaChannels = mutableMapOf<SystemArea, Channel<Insets>>()
+    private val areaStateFlows = mutableMapOf<SystemArea, MutableStateFlow<Insets>>()
     private var listener: OnApplyWindowInsetsListener? = null
-
-    init {
-        setupInsetsListener()
-    }
+    private var activeFlowCount = 0
 
     /**
-     * Gets the current WindowInsets for the specified system area.
-     * Returns Insets.NONE if no window insets are available.
+     * Gets a Flow for the specified system area. Creates the flow if it doesn't exist.
+     * Multiple calls for the same SystemArea will return independent flows from the same source.
      */
-    private fun getCurrentInsets(): Insets {
-        val windowInsets = ViewCompat.getRootWindowInsets(view)
-        return windowInsets?.let { SystemAreaInsetsMapper.getInsetsForSystemArea(it, systemArea) } ?: Insets.NONE
-    }
+    fun getFlow(systemArea: SystemArea): Flow<Insets> {
+        activeFlowCount++
 
-    /**
-     * Sets up the WindowInsets listener that updates both StateFlow and Channel
-     * when insets change. Also sends the initial insets value to the Channel.
-     */
-    private fun setupInsetsListener() {
-        listener =
-            OnApplyWindowInsetsListener { _, insets ->
-                val targetInsets = SystemAreaInsetsMapper.getInsetsForSystemArea(insets, systemArea)
-                _insetsStateFlow.value = targetInsets
-                _insetsChannel.trySend(targetInsets)
-                insets
+        val channel = areaChannels.getOrPut(systemArea) {
+            Channel<Insets>(Channel.UNLIMITED)
+        }
+
+        // Set up listener if this is the first flow
+        if (listener == null) {
+            setupListener()
+        }
+
+        // Send current insets immediately
+        val currentInsets = getCurrentInsets(systemArea)
+        channel.trySend(currentInsets)
+
+        return callbackFlow {
+            // Subscribe to the shared channel
+            val job = launch {
+                for (insets in channel) {
+                    trySend(insets)
+                }
             }
-        ViewCompat.setOnApplyWindowInsetsListener(view, listener)
 
-        // Send initial value to channel
-        _insetsChannel.trySend(getCurrentInsets())
+            awaitClose {
+                job.cancel()
+                decrementActiveFlows()
+            }
+        }
     }
 
     /**
-     * Cleans up resources by removing the insets listener and closing the Channel.
-     * Called automatically when the view is detached from window.
+     * Gets a StateFlow for the specified system area. Creates the StateFlow if it doesn't exist.
      */
-    public fun destroy() {
+    fun getStateFlow(systemArea: SystemArea): StateFlow<Insets> {
+        activeFlowCount++
+
+        val stateFlow = areaStateFlows.getOrPut(systemArea) {
+            MutableStateFlow(getCurrentInsets(systemArea))
+        }
+
+        // Set up listener if this is the first flow
+        if (listener == null) {
+            setupListener()
+        }
+
+        return stateFlow.asStateFlow()
+    }
+
+    /**
+     * Gets a Channel for the specified system area. Creates the channel if it doesn't exist.
+     */
+    fun getChannel(systemArea: SystemArea): Channel<Insets> {
+        activeFlowCount++
+
+        val channel = areaChannels.getOrPut(systemArea) {
+            Channel<Insets>(Channel.UNLIMITED)
+        }
+
+        // Set up listener if this is the first flow
+        if (listener == null) {
+            setupListener()
+        }
+
+        // Send current insets immediately
+        val currentInsets = getCurrentInsets(systemArea)
+        channel.trySend(currentInsets)
+
+        return channel
+    }
+
+    /**
+     * Notifies that a flow is no longer active. Cleans up resources if no flows are active.
+     */
+    fun decrementActiveFlows() {
+        activeFlowCount--
+        if (activeFlowCount <= 0) {
+            cleanup()
+        }
+    }
+
+    private fun getCurrentInsets(systemArea: SystemArea): Insets {
+        val windowInsets = ViewCompat.getRootWindowInsets(view)
+        return windowInsets?.let {
+            SystemAreaInsetsMapper.getInsetsForSystemArea(it, systemArea)
+        } ?: Insets.NONE
+    }
+
+    private fun setupListener() {
+        listener = OnApplyWindowInsetsListener { _, windowInsets ->
+            // Distribute insets to all active channels and state flows
+            areaChannels.forEach { (systemArea, channel) ->
+                val targetInsets = SystemAreaInsetsMapper.getInsetsForSystemArea(windowInsets, systemArea)
+                channel.trySend(targetInsets)
+            }
+
+            areaStateFlows.forEach { (systemArea, stateFlow) ->
+                val targetInsets = SystemAreaInsetsMapper.getInsetsForSystemArea(windowInsets, systemArea)
+                stateFlow.value = targetInsets
+            }
+
+            windowInsets
+        }
+
+        ViewCompat.setOnApplyWindowInsetsListener(view, listener)
+    }
+
+    private fun cleanup() {
+        // Close all channels
+        areaChannels.values.forEach { channel ->
+            channel.close()
+        }
+        areaChannels.clear()
+        areaStateFlows.clear()
+
+        // Remove listener
         ViewCompat.setOnApplyWindowInsetsListener(view, null)
         listener = null
-        _insetsChannel.close()
+
+        // Remove from providers map
+        providers.remove(view)
     }
 
-    companion object {
-        private val providers = mutableMapOf<Pair<View, SystemArea>, InsetsFlowProvider>()
+    companion object Companion {
+        private val providers = mutableMapOf<View, InsetsFlowProvider>()
 
         /**
-         * Gets an existing InsetsFlowProvider for the specified view and system area,
-         * or creates a new one if none exists. This ensures efficient resource usage
-         * by reusing providers for the same view-systemArea combination.
-         *
-         * The provider automatically manages its lifecycle:
-         * - It's created when first requested for a view-systemArea pair
-         * - It's automatically destroyed and removed when the view is detached from window
-         * - Multiple calls with the same parameters return the same provider instance
-         *
-         * @param view The View to monitor for insets changes
-         * @param systemArea The specific system area to track (defaults to SystemBar)
-         * @return InsetsFlowProvider instance for the specified view and system area
+         * Gets or creates a shared provider for the specified view.
          */
-        public fun getOrCreate(
-            view: View,
-            systemArea: SystemArea = SystemArea.SystemBar,
-        ): InsetsFlowProvider {
-            val key = view to systemArea
-            return providers.getOrPut(key) {
-                InsetsFlowProvider(view, systemArea).also { provider ->
-                    view.addOnAttachStateChangeListener(
-                        object : View.OnAttachStateChangeListener {
-                            override fun onViewAttachedToWindow(v: View) {}
+        fun getOrCreate(view: View): InsetsFlowProvider = providers.getOrPut(view) {
+            InsetsFlowProvider(view).also { provider ->
+                // Set up cleanup when view is detached
+                view.addOnAttachStateChangeListener(
+                    object : View.OnAttachStateChangeListener {
+                        override fun onViewAttachedToWindow(v: View) {}
 
-                            override fun onViewDetachedFromWindow(v: View) {
-                                providers.entries.removeAll { (providerKey, providerValue) ->
-                                    if (providerKey.first == v) {
-                                        providerValue.destroy()
-                                        true
-                                    } else {
-                                        false
-                                    }
-                                }
-                                v.removeOnAttachStateChangeListener(this)
-                            }
-                        },
-                    )
-                }
+                        override fun onViewDetachedFromWindow(v: View) {
+                            providers.remove(v)?.cleanup()
+                            v.removeOnAttachStateChangeListener(this)
+                        }
+                    },
+                )
             }
         }
     }
