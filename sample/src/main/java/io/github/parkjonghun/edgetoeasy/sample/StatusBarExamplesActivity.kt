@@ -23,6 +23,7 @@ import android.widget.ScrollView
 import android.widget.TextView
 import androidx.activity.ComponentActivity
 import androidx.activity.enableEdgeToEdge
+import androidx.core.graphics.drawable.toDrawable
 import io.github.parkjonghun.edgetoeasy.core.extension.awayFrom
 import io.github.parkjonghun.edgetoeasy.core.extension.enableAutoStatusBarAppearance
 import io.github.parkjonghun.edgetoeasy.core.extension.forceNavigationBarItemsDark
@@ -111,6 +112,7 @@ class StatusBarExamplesActivity : ComponentActivity() {
         container.addView(
             createButton("Auto with White Background") {
                 setAutoStatusBarAppearance(Color.WHITE)
+                window.setBackgroundDrawable(Color.WHITE.toDrawable())
                 container.setBackgroundColor(Color.WHITE)
                 statusText.text = "White background → Dark status bar icons"
             },
@@ -120,6 +122,7 @@ class StatusBarExamplesActivity : ComponentActivity() {
             createButton("Auto with Black Background") {
                 setAutoStatusBarAppearance(Color.BLACK)
                 container.setBackgroundColor(Color.BLACK)
+                window.setBackgroundDrawable(Color.BLACK.toDrawable())
                 statusText.text = "Black background → Light status bar icons"
                 statusText.setTextColor(Color.WHITE)
             },
@@ -129,6 +132,7 @@ class StatusBarExamplesActivity : ComponentActivity() {
             createButton("Auto with Blue Background") {
                 setAutoStatusBarAppearance(Color.BLUE)
                 container.setBackgroundColor(Color.BLUE)
+                window.setBackgroundDrawable(Color.BLUE.toDrawable())
                 statusText.text = "Blue background → Light status bar icons"
                 statusText.setTextColor(Color.WHITE)
             },
@@ -138,6 +142,7 @@ class StatusBarExamplesActivity : ComponentActivity() {
             createButton("Auto with Yellow Background") {
                 setAutoStatusBarAppearance(Color.YELLOW)
                 container.setBackgroundColor(Color.YELLOW)
+                window.setBackgroundDrawable(Color.YELLOW.toDrawable())
                 statusText.text = "Yellow background → Dark status bar icons"
                 statusText.setTextColor(Color.BLACK)
             },
@@ -183,6 +188,7 @@ class StatusBarExamplesActivity : ComponentActivity() {
         container.addView(
             createButton("Change Auto View to Purple") {
                 autoView.setBackgroundColor(Color.rgb(128, 0, 128))
+                window.setBackgroundDrawable(Color.rgb(128, 0, 128).toDrawable())
                 statusText.text = "Auto view changed to purple - status bar updates automatically"
             },
         )
@@ -190,6 +196,7 @@ class StatusBarExamplesActivity : ComponentActivity() {
         container.addView(
             createButton("Change Auto View to Cyan") {
                 autoView.setBackgroundColor(Color.CYAN)
+                window.setBackgroundDrawable(Color.CYAN.toDrawable())
                 statusText.text = "Auto view changed to cyan - status bar updates automatically"
             },
         )
@@ -210,6 +217,7 @@ class StatusBarExamplesActivity : ComponentActivity() {
             createButton("Reset to Default") {
                 container.setBackgroundColor(Color.WHITE)
                 setAutoStatusBarAppearance(Color.WHITE)
+                window.setBackgroundDrawable(Color.WHITE.toDrawable())
                 statusText.text = "Reset to default white background"
                 statusText.setTextColor(Color.BLUE)
             },
