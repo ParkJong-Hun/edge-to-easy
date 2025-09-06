@@ -57,9 +57,6 @@ class MainActivity : ComponentActivity() {
                                 ),
                             )
                         },
-                        onComposeClick = {
-                            startActivity(Intent(this@MainActivity, ComposeActivity::class.java))
-                        },
                         onFragmentClick = {
                             startActivity(Intent(this@MainActivity, FragmentActivity::class.java))
                         },
@@ -79,16 +76,15 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun MainScreen(
     onTraditionalClick: () -> Unit,
-    onComposeClick: () -> Unit,
     onFragmentClick: () -> Unit,
     onFlowExamplesClick: () -> Unit = {},
     onStatusBarExamplesClick: () -> Unit = {},
 ) {
     Column(
         modifier =
-        Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -107,33 +103,27 @@ fun MainScreen(
         Button(
             onClick = onTraditionalClick,
             modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(bottom = 8.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 8.dp),
         ) {
             Text("Traditional Activity")
         }
 
         Button(
-            onClick = onComposeClick,
-            modifier =
-            Modifier
+            onClick = onFragmentClick,
+            modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp),
-        ) {
-            Text("Compose Activity")
-        }
-
-        Button(
-            onClick = onFragmentClick,
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
         ) {
             Text("Fragment Activity")
         }
 
         Button(
             onClick = onFlowExamplesClick,
-            modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
         ) {
             Text("Flow Examples")
         }
@@ -153,7 +143,6 @@ fun MainScreenPreview() {
     EdgeToEasySampleTheme {
         MainScreen(
             onTraditionalClick = {},
-            onComposeClick = {},
             onFragmentClick = {},
             onFlowExamplesClick = {},
             onStatusBarExamplesClick = {},
