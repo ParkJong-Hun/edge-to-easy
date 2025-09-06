@@ -19,9 +19,6 @@
             android:name=".TraditionalActivity"
             android:theme="@style/Theme.EdgeToEasySample" />
         <activity
-            android:name=".ComposeActivity"
-            android:theme="@style/Theme.EdgeToEasySample" />
-        <activity
             android:name=".FragmentActivity"
             android:theme="@style/Theme.EdgeToEasySample" />
         <activity

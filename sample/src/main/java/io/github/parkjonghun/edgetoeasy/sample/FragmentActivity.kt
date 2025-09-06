@@ -105,7 +105,7 @@ class SampleFragment : Fragment() {
         container.addView(
             createDescriptionText(
                 "This fragment demonstrates edge-to-edge handling within Fragment architecture " +
-                        "using the Edge to Easy library.",
+                    "using the Edge to Easy library.",
             ),
         )
 

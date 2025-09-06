@@ -82,9 +82,9 @@ fun MainScreen(
 ) {
     Column(
         modifier =
-            Modifier
-                .fillMaxSize()
-                .padding(16.dp),
+        Modifier
+            .fillMaxSize()
+            .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -103,9 +103,9 @@ fun MainScreen(
         Button(
             onClick = onTraditionalClick,
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(bottom = 8.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
         ) {
             Text("Traditional Activity")
         }
