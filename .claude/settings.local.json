@@ -2,7 +2,7 @@
   "permissions": {
     "allow": [
       "Bash(./gradlew:*)",
-      "Bash(gradle spotlessApply:*)"
+      "Bash(gradle spotlessApply:*)",
     ],
     "deny": [],
     "ask": []
