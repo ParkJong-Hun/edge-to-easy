@@ -1,28 +1,45 @@
 # Edge to Easy
 
-A Kotlin library that makes it easier to enable Edge-to-Edge in your Android app with an intuitive DSL approach.
+A comprehensive Kotlin library that makes it easier to enable Edge-to-Edge in your Android app with an intuitive DSL approach and reactive programming support.
+
+## Modules
+
+This library consists of two main modules:
+
+- **`edge-to-easy-core`** - Core DSL functionality for edge-to-edge handling
+- **`edge-to-easy-flow`** - Reactive programming support with StateFlow and Flow for monitoring WindowInsets changes
 
 ## Features
 
-- 🎯 **Intuitive DSL** - Natural language methods like `separateFrom()`, `awayFrom()`, `distanceFrom()`
+- 🎯 **Intuitive DSL** - Natural language methods like `awayFrom()`, `fillSpace()`, `fillWithMargin()`
 - 📐 **Flexible Spacing** - Support for both margin and padding adjustments
 - 🔗 **Method Chaining** - Chain multiple views for complex layouts
 - 🎨 **Direction Control** - Precise control over which directions to fill
 - 🛡️ **Type Safe** - Kotlin-first design with compile-time safety
+- ⚡ **Flow Support** - StateFlow and Flow for reactive WindowInsets monitoring
+- 🎛️ **Conflict-Free Management** - Shared WindowInsets listeners to prevent listener conflicts
+- 🔌 **Pluggable Architecture** - Interface-based provider system for extensible implementations
 
 ## Installation
 
-Add this to your module's `build.gradle.kts`:
-
+### Core Module Only
 ```kotlin
 dependencies {
-    implementation("io.github.parkjonghun:edge-to-easy:0.0.1")
+    implementation("io.github.parkjonghun:edge-to-easy-core:0.0.1")
+}
+```
+
+### With Flow Support
+```kotlin
+dependencies {
+    implementation("io.github.parkjonghun:edge-to-easy-core:0.0.1")
+    implementation("io.github.parkjonghun:edge-to-easy-flow:0.0.1")
 }
 ```
 
 ## Quick Start
 
-### Basic Usage
+### Core Module Usage
 
 ```kotlin
 // Simple margin-based spacing (default)
@@ -40,7 +57,33 @@ view.awayFrom(SystemArea.Everything)
     .handleEdgeToEdge()
 ```
 
-### Multiple Views
+### Flow Module Usage
+
+```kotlin
+// Monitor WindowInsets changes with StateFlow
+val insetsStateFlow = view.insetsStateFlow(SystemArea.IME)
+insetsStateFlow.collect { insets ->
+    val keyboardHeight = insets.bottom
+    // Adjust UI based on keyboard height
+}
+
+// Monitor all system area changes with Flow
+view.insetsFlow()
+    .onEach { insets ->
+        println("Insets changed: $insets")
+    }
+    .launchIn(lifecycleScope)
+
+// Use Channel for custom processing
+val insetsChannel = view.insetsChannel(SystemArea.StatusBar)
+lifecycleScope.launch {
+    for (insets in insetsChannel) {
+        handleInsetsChange(insets)
+    }
+}
+```
+
+### Advanced Core Usage
 
 ```kotlin
 // Chain multiple views with different system areas
@@ -48,11 +91,7 @@ toolbar.awayFrom(SystemArea.Top).fillWithMargin()
     .then(content).awayFrom(SystemArea.Left).fillWithPadding(FillDirection.Horizontal)
     .then(bottomNav).awayFrom(SystemArea.Bottom).fillSpace()
     .handleEdgeToEdge()
-```
 
-### Advanced Usage
-
-```kotlin
 // Continue insets to other views outside the chain
 parentView.awayFrom(SystemArea.StatusBar).fillSpace().continueToOthers()
 
@@ -69,6 +108,33 @@ toolbar.awayFrom(SystemArea.StatusBar).fillWithMargin()
 // Add spacer views to ViewGroups
 linearLayout.addSystemAreaSpacer(SystemArea.NavigationBar)  // Add at the end
 constraintLayout.addSystemAreaSpacer(SystemArea.StatusBar, addToTop = true)  // Add at the beginning
+```
+
+### Advanced Flow Usage
+
+```kotlin
+// Use Channel Flow for more control over buffering
+view.insetsChannelFlow(SystemArea.StatusBar)
+    .distinctUntilChanged()
+    .debounce(100.milliseconds)
+    .onEach { insets ->
+        updateToolbarHeight(insets.top)
+    }
+    .launchIn(lifecycleScope)
+
+// Combine multiple system areas
+combine(
+    view.insetsFlow(SystemArea.StatusBar),
+    view.insetsFlow(SystemArea.NavigationBar)
+) { statusInsets, navInsets ->
+    statusInsets.top + navInsets.bottom
+}.onEach { totalSystemHeight ->
+    adjustContentHeight(totalSystemHeight)
+}.launchIn(lifecycleScope)
+
+// Use StateFlow for immediate current value access
+val keyboardStateFlow = view.insetsStateFlow(SystemArea.IME)
+val currentKeyboardHeight = keyboardStateFlow.value.bottom
 ```
 
 ## System Areas
@@ -94,22 +160,38 @@ constraintLayout.addSystemAreaSpacer(SystemArea.StatusBar, addToTop = true)  // 
 
 ## API Reference
 
-### Extension Functions
+### Core Module Extensions
 
+#### View Extensions
 - `View.awayFrom(systemArea)` - Create distance from system area
 - `ViewGroup.addSystemAreaSpacer(systemArea, addToTop)` - Add spacer view with height based on system area insets
 
-### Fill Methods
-
+#### Fill Methods
 - `fillSpace(direction, useMargin)` - Fill space with margin (default) or padding
 - `fillWithPadding(direction)` - Fill space with padding
 - `fillWithMargin(direction)` - Fill space with margin
 
-### Chain Control
-
+#### Chain Control
 - `handleEdgeToEdge()` - Complete edge-to-edge setup and consume insets
 - `continueToOthers()` - Allow other views to also handle insets
 - `then(view)` - Add another view to the chain
+
+### Flow Module Extensions
+
+#### Reactive Extensions
+- `View.insetsFlow(systemArea)` - Create Flow that emits WindowInsets changes
+- `View.insetsStateFlow(systemArea)` - Create StateFlow for WindowInsets with current state
+- `View.insetsChannel(systemArea)` - Create Channel for WindowInsets updates
+- `View.insetsChannelFlow(systemArea)` - Create Flow from Channel for WindowInsets
+
+#### Provider Interface
+The Flow module uses the `InsetsFlowProvider` interface for extensible and pluggable WindowInsets monitoring:
+- `InsetsFlowProvider.createFlow(systemArea)` - Create Flow for system area
+- `InsetsFlowProvider.getStateFlow(systemArea)` - Get StateFlow for system area  
+- `InsetsFlowProvider.createChannel(systemArea)` - Create Channel for system area
+- `InsetsFlowProvider.createChannelFlow(systemArea)` - Create Channel-based Flow
+
+Current implementation uses `SharedInsetsFlowProvider` which prevents listener conflicts by using a single WindowInsets listener per View.
 
 ## Requirements
 
