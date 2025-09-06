@@ -89,12 +89,12 @@ class SampleFragment : Fragment() {
         val scrollView = view as ScrollView
         val mainContainer = scrollView.getChildAt(0) as LinearLayout
 
+        setupFragmentExamples(mainContainer)
+
         // Apply edge-to-edge handling
         scrollView.awayFrom(SystemArea.Everything)
             .fillSpace()
             .handleEdgeToEdge()
-
-        setupFragmentExamples(mainContainer)
     }
 
     private fun setupFragmentExamples(container: LinearLayout) {
@@ -105,7 +105,7 @@ class SampleFragment : Fragment() {
         container.addView(
             createDescriptionText(
                 "This fragment demonstrates edge-to-edge handling within Fragment architecture " +
-                    "using the Edge to Easy library.",
+                        "using the Edge to Easy library.",
             ),
         )
 
