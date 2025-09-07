@@ -1,24 +1,34 @@
 [versions]
 agp = "8.11.0"
+compile-sdk = "36"
+min-sdk = "28"
+target-sdk = "36"
+
 kotlin = "2.2.0"
+kotlin-test = "2.2.0"
+
 spotless = "7.2.1"
 ktlint = "1.7.1"
+
 junit = "4.13.2"
+mockk = "1.13.14"
+
 androidx-core = "1.12.0"
 androidx-activity = "1.8.2"
 androidx-fragment = "1.6.2"
 androidx-test-ext-junit = "1.1.5"
+
 kotlinx-coroutines = "1.9.0"
+kotlinx-coroutines-test = "1.9.0"
+
 appcompat = "1.7.1"
 recyclerview = "1.4.0"
 material = "1.11.0"
 constraintlayout = "2.1.4"
 lifecycle-runtime-ktx = "2.7.0"
+
 activity-compose = "1.8.2"
 compose-bom = "2025.07.00"
-compile-sdk = "36"
-min-sdk = "28"
-target-sdk = "36"
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "androidx-core" }
@@ -40,6 +50,9 @@ androidx-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit
 androidx-material3 = { group = "androidx.compose.material3", name = "material3" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinx-coroutines" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
+kotlin-test = { group = "org.jetbrains.kotlin", name = "kotlin-test", version.ref = "kotlin-test" }
+mockk = { group = "io.mockk", name = "mockk", version.ref = "mockk" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinx-coroutines-test" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "androidx-test-ext-junit" }
 
 [plugins]
@@ -53,6 +66,6 @@ spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }
 androidx = ["androidx-core-ktx", "androidx-activity-ktx", "androidx-fragment-ktx"]
 androidx-app = ["androidx-core-ktx", "androidx-appcompat", "material", "androidx-constraintlayout"]
 compose = ["androidx-activity-compose", "androidx-ui", "androidx-ui-graphics", "androidx-ui-tooling-preview", "androidx-material3", "androidx-lifecycle-runtime-ktx"]
-test = ["junit"]
+test = ["junit", "kotlin-test", "mockk", "kotlinx-coroutines-test"]
 android-test = ["androidx-junit"]
 compose-test = ["androidx-ui-test-junit4"]
