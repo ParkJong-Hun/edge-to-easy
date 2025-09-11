@@ -19,8 +19,8 @@ import androidx.core.graphics.Insets
 import androidx.core.view.WindowInsetsCompat
 import io.github.parkjonghun.edgetoeasy.core.model.SystemArea
 
-object SystemAreaInsetsMapper {
-    fun getInsetsForSystemArea(
+public object SystemAreaInsetsMapper {
+    public fun getInsetsForSystemArea(
         insets: WindowInsetsCompat,
         systemArea: SystemArea,
     ): Insets = when (systemArea) {

@@ -28,10 +28,10 @@ import io.github.parkjonghun.edgetoeasy.core.util.SystemAreaInsetsMapper
  * Chain class for handling multiple views with insets in sequence.
  * This allows for step-by-step application of insets across different views.
  */
-class ViewInsetsChain(
+public class ViewInsetsChain(
     private val views: MutableList<ViewInsetsConfig> = mutableListOf(),
 ) {
-    constructor(view: View, systemArea: SystemArea, direction: FillDirection, spacingType: SpacingType = SpacingType.MARGIN) : this() {
+    public constructor(view: View, systemArea: SystemArea, direction: FillDirection, spacingType: SpacingType = SpacingType.MARGIN) : this() {
         views.add(ViewInsetsConfig(view, systemArea, direction, spacingType, shouldConsumeInsets = false))
     }
 
@@ -133,7 +133,7 @@ class ViewInsetsChain(
         }
     }
 
-    data class ViewInsetsConfig(
+    public data class ViewInsetsConfig(
         val view: View,
         val systemArea: SystemArea,
         val direction: FillDirection,

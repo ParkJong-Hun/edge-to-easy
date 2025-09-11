@@ -52,6 +52,7 @@ android {
     tasks.withType<KotlinCompile> {
         compilerOptions {
             jvmTarget.set(JvmTarget.JVM_17)
+            freeCompilerArgs.add("-Xexplicit-api=warning")
         }
     }
 

@@ -18,7 +18,7 @@ package io.github.parkjonghun.edgetoeasy.core.model
 /**
  * Defines how the spacing should be applied to a view.
  */
-enum class SpacingType {
+public enum class SpacingType {
     /** Apply spacing as padding (inside the view) */
     PADDING,
 

@@ -27,7 +27,7 @@ import io.github.parkjonghun.edgetoeasy.core.model.SystemArea
  * @param view The view to apply edge-to-edge configuration to
  * @param chain Optional existing chain to continue
  */
-class ViewEdgeBuilder(
+public class ViewEdgeBuilder(
     private val view: View,
     private val chain: ViewInsetsChain? = null,
 ) {
@@ -48,7 +48,7 @@ class ViewEdgeBuilder(
  * @param systemArea The system area that was specified to separate from
  * @param chain Optional existing chain to continue
  */
-class ViewFillBuilder(
+public class ViewFillBuilder(
     private val view: View,
     private val systemArea: SystemArea,
     private val chain: ViewInsetsChain? = null,

@@ -23,15 +23,15 @@ package io.github.parkjonghun.edgetoeasy.core.model
  * @property right If true, the view should fill the right direction.
  * @property bottom If true, the view should fill the bottom direction.
  */
-data class FillDirection(
+public data class FillDirection(
     val top: Boolean = true,
     val left: Boolean = true,
     val right: Boolean = true,
     val bottom: Boolean = true,
 ) {
-    companion object Companion {
+    public companion object Companion {
         @JvmStatic
-        val None =
+        public val None =
             FillDirection(
                 top = false,
                 left = false,
@@ -40,7 +40,7 @@ data class FillDirection(
             )
 
         @JvmStatic
-        val All =
+        public val All =
             FillDirection(
                 top = true,
                 left = true,
@@ -49,7 +49,7 @@ data class FillDirection(
             )
 
         @JvmStatic
-        val Horizontal =
+        public val Horizontal =
             FillDirection(
                 top = false,
                 left = true,
@@ -58,7 +58,7 @@ data class FillDirection(
             )
 
         @JvmStatic
-        val Vertical =
+        public val Vertical =
             FillDirection(
                 top = true,
                 left = false,
@@ -67,7 +67,7 @@ data class FillDirection(
             )
 
         @JvmStatic
-        val Left =
+        public val Left =
             FillDirection(
                 top = false,
                 left = true,
@@ -76,7 +76,7 @@ data class FillDirection(
             )
 
         @JvmStatic
-        val Top =
+        public val Top =
             FillDirection(
                 top = true,
                 left = false,
@@ -85,7 +85,7 @@ data class FillDirection(
             )
 
         @JvmStatic
-        val Right =
+        public val Right =
             FillDirection(
                 top = false,
                 left = false,
@@ -94,7 +94,7 @@ data class FillDirection(
             )
 
         @JvmStatic
-        val Bottom =
+        public val Bottom =
             FillDirection(
                 top = false,
                 left = false,
@@ -103,7 +103,7 @@ data class FillDirection(
             )
 
         @JvmStatic
-        val TopRight =
+        public val TopRight =
             FillDirection(
                 top = true,
                 left = false,
@@ -112,7 +112,7 @@ data class FillDirection(
             )
 
         @JvmStatic
-        val TopLeft =
+        public val TopLeft =
             FillDirection(
                 top = true,
                 left = true,
@@ -121,7 +121,7 @@ data class FillDirection(
             )
 
         @JvmStatic
-        val BottomRight =
+        public val BottomRight =
             FillDirection(
                 top = false,
                 left = false,
@@ -130,7 +130,7 @@ data class FillDirection(
             )
 
         @JvmStatic
-        val BottomLeft =
+        public val BottomLeft =
             FillDirection(
                 top = false,
                 left = true,
@@ -146,34 +146,34 @@ data class FillDirection(
  * @property top If true, the view should fill the top direction.
  * @property bottom If true, the view should fill the bottom direction.
  */
-data class FillVerticalDirection(
+public data class FillVerticalDirection(
     val top: Boolean = true,
     val bottom: Boolean = true,
 ) {
-    companion object Companion {
+    public companion object Companion {
         @JvmStatic
-        val None =
+        public val None =
             FillVerticalDirection(
                 top = false,
                 bottom = false,
             )
 
         @JvmStatic
-        val All =
+        public val All =
             FillVerticalDirection(
                 top = true,
                 bottom = true,
             )
 
         @JvmStatic
-        val Top =
+        public val Top =
             FillVerticalDirection(
                 top = true,
                 bottom = false,
             )
 
         @JvmStatic
-        val Bottom =
+        public val Bottom =
             FillVerticalDirection(
                 top = false,
                 bottom = true,

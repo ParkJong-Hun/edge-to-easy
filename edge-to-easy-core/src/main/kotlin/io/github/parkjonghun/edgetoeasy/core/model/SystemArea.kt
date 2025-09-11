@@ -21,7 +21,7 @@ package io.github.parkjonghun.edgetoeasy.core.model
  * This enum can be used to specify which part of the system UI you want to interact with,
  * such as adding margins or padding to avoid overlapping with these areas.
  */
-enum class SystemArea {
+public enum class SystemArea {
     /** Includes both SystemBar and StatusBar */
     SystemBar,
 

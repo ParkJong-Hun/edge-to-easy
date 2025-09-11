@@ -28,7 +28,7 @@ import kotlinx.coroutines.flow.StateFlow
  * This interface allows for different implementations (e.g., shared listeners, managed listeners)
  * while providing a consistent API for consumers.
  */
-interface InsetsFlowProvider {
+public interface InsetsFlowProvider {
 
     /**
      * Creates a Flow that emits WindowInsets for the specified system area.
@@ -37,7 +37,7 @@ interface InsetsFlowProvider {
      * @param systemArea The system area to monitor for insets changes
      * @return Flow<Insets> that emits insets updates for the specified system area
      */
-    fun createFlow(systemArea: SystemArea): Flow<Insets>
+    public fun createFlow(systemArea: SystemArea): Flow<Insets>
 
     /**
      * Creates or returns a StateFlow for the specified system area.
@@ -46,7 +46,7 @@ interface InsetsFlowProvider {
      * @param systemArea The system area to monitor for insets changes
      * @return StateFlow<Insets> that holds and emits insets updates for the specified system area
      */
-    fun getStateFlow(systemArea: SystemArea): StateFlow<Insets>
+    public fun getStateFlow(systemArea: SystemArea): StateFlow<Insets>
 
     /**
      * Creates a Channel that receives WindowInsets updates for the specified system area.
@@ -55,7 +55,7 @@ interface InsetsFlowProvider {
      * @param systemArea The system area to monitor for insets changes
      * @return Channel<Insets> that receives insets updates for the specified system area
      */
-    fun createChannel(systemArea: SystemArea): Channel<Insets>
+    public fun createChannel(systemArea: SystemArea): Channel<Insets>
 
     /**
      * Creates a Flow from a Channel that receives WindowInsets updates for the specified system area.
@@ -64,5 +64,5 @@ interface InsetsFlowProvider {
      * @param systemArea The system area to monitor for insets changes
      * @return Flow<Insets> that emits insets updates from the underlying Channel
      */
-    fun createChannelFlow(systemArea: SystemArea): Flow<Insets>
+    public fun createChannelFlow(systemArea: SystemArea): Flow<Insets>
 }
