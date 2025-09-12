@@ -66,6 +66,9 @@ class MainActivity : ComponentActivity() {
                         onStatusBarExamplesClick = {
                             startActivity(Intent(this@MainActivity, StatusBarExamplesActivity::class.java))
                         },
+                        onDslExamplesClick = {
+                            startActivity(Intent(this@MainActivity, BeforeAfterListActivity::class.java))
+                        },
                     )
                 }
             }
@@ -79,6 +82,7 @@ fun MainScreen(
     onFragmentClick: () -> Unit,
     onFlowExamplesClick: () -> Unit = {},
     onStatusBarExamplesClick: () -> Unit = {},
+    onDslExamplesClick: () -> Unit = {},
 ) {
     Column(
         modifier =
@@ -130,9 +134,18 @@ fun MainScreen(
 
         Button(
             onClick = onStatusBarExamplesClick,
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
         ) {
             Text("Status Bar Examples")
+        }
+
+        Button(
+            onClick = onDslExamplesClick,
+            modifier = Modifier.fillMaxWidth(),
+        ) {
+            Text("DSL Before/After Examples")
         }
     }
 }
@@ -146,6 +159,7 @@ fun MainScreenPreview() {
             onFragmentClick = {},
             onFlowExamplesClick = {},
             onStatusBarExamplesClick = {},
+            onDslExamplesClick = {},
         )
     }
 }

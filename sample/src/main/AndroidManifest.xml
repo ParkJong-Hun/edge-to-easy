@@ -27,6 +27,12 @@
         <activity
             android:name=".StatusBarExamplesActivity"
             android:theme="@style/Theme.EdgeToEasySample" />
+        <activity
+            android:name=".BeforeAfterListActivity"
+            android:theme="@style/Theme.EdgeToEasySample" />
+        <activity
+            android:name=".DslExampleActivity"
+            android:theme="@style/Theme.EdgeToEasySample" />
     </application>
 
 </manifest>
