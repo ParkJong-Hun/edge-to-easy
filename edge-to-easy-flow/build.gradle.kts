@@ -77,6 +77,10 @@ afterEvaluate {
         publications {
             create<MavenPublication>("maven") {
                 from(components["release"])
+                
+                groupId = "io.github.parkjonghun"
+                artifactId = "edge-to-easy-flow"
+                version = project.version.toString()
 
                 pom {
                     name.set("Edge to Easy Flow")
@@ -101,6 +105,17 @@ afterEvaluate {
                         developerConnection.set("scm:git:ssh://github.com:parkjonghun/edge-to-easy.git")
                         url.set("https://github.com/parkjonghun/edge-to-easy")
                     }
+                }
+            }
+        }
+        
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/parkjonghun/edge-to-easy")
+                credentials {
+                    username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                    password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
                 }
             }
         }

@@ -76,9 +76,13 @@ afterEvaluate {
         publications {
             create<MavenPublication>("maven") {
                 from(components["release"])
+                
+                groupId = "io.github.parkjonghun"
+                artifactId = "edge-to-easy-core"
+                version = project.version.toString()
 
                 pom {
-                    name.set("Edge to Easy")
+                    name.set("Edge to Easy Core")
                     description.set("A Kotlin library that makes it easier to enable Edge to Edge in your Android app")
                     url.set("https://github.com/parkjonghun/edge-to-easy")
                     licenses {
@@ -96,10 +100,21 @@ afterEvaluate {
                     }
 
                     scm {
-                        connection.set("scm:git:git://github.com/parkjonghun/edge-to-easy-core.git")
-                        developerConnection.set("scm:git:ssh://github.com:parkjonghun/edge-to-easy-core.git")
+                        connection.set("scm:git:git://github.com/parkjonghun/edge-to-easy.git")
+                        developerConnection.set("scm:git:ssh://github.com:parkjonghun/edge-to-easy.git")
                         url.set("https://github.com/parkjonghun/edge-to-easy")
                     }
+                }
+            }
+        }
+        
+        repositories {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/parkjonghun/edge-to-easy")
+                credentials {
+                    username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
+                    password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
                 }
             }
         }
