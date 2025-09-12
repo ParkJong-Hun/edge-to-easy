@@ -49,7 +49,7 @@ class DslExampleActivity : AppCompatActivity() {
         fillMethod: String,
         endMethod: String,
         isAfter: Boolean,
-        patternDescription: String
+        patternDescription: String,
     ) {
         val mainContainer = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
@@ -103,7 +103,7 @@ class DslExampleActivity : AppCompatActivity() {
         systemArea: SystemArea,
         fillMethod: String,
         endMethod: String,
-        isAfter: Boolean
+        isAfter: Boolean,
     ) {
         // Content Area
         val contentView = TextView(this).apply {
@@ -122,7 +122,7 @@ class DslExampleActivity : AppCompatActivity() {
             setPadding(20, 30, 20, 30)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                0
+                0,
             ).apply {
                 weight = 1f
                 setMargins(0, 10, 0, 10)
@@ -148,7 +148,7 @@ class DslExampleActivity : AppCompatActivity() {
             setBackgroundColor(Color.WHITE)
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                LinearLayout.LayoutParams.WRAP_CONTENT,
             ).apply {
                 setMargins(20, 10, 20, 10)
             }
@@ -165,7 +165,7 @@ class DslExampleActivity : AppCompatActivity() {
                 setPadding(15, 20, 15, 20)
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                 ).apply {
                     setMargins(10, 5, 10, 5)
                 }
@@ -179,7 +179,7 @@ class DslExampleActivity : AppCompatActivity() {
                 setPadding(15, 20, 15, 20)
                 layoutParams = LinearLayout.LayoutParams(
                     LinearLayout.LayoutParams.MATCH_PARENT,
-                    LinearLayout.LayoutParams.WRAP_CONTENT
+                    LinearLayout.LayoutParams.WRAP_CONTENT,
                 ).apply {
                     setMargins(10, 5, 10, 5)
                 }
@@ -204,7 +204,7 @@ class DslExampleActivity : AppCompatActivity() {
         root: LinearLayout,
         systemArea: SystemArea,
         fillMethod: String,
-        endMethod: String
+        endMethod: String,
     ) {
         val chain = root.awayFrom(systemArea)
 

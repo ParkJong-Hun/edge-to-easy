@@ -63,8 +63,8 @@ class BeforeAfterListActivity : AppCompatActivity() {
         container.addView(createTitleText("DSL Before/After Examples"))
         container.addView(
             createDescriptionText(
-                "Select the desired options and compare before and after applying them."
-            )
+                "Select the desired options and compare before and after applying them.",
+            ),
         )
 
         // SystemArea selection spinner
@@ -108,7 +108,7 @@ class BeforeAfterListActivity : AppCompatActivity() {
             text = "After"
             layoutParams = LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT
+                LinearLayout.LayoutParams.WRAP_CONTENT,
             ).apply {
                 leftMargin = 30
             }
@@ -174,7 +174,7 @@ class BeforeAfterListActivity : AppCompatActivity() {
         SystemArea.Bottom to "Bottom",
         SystemArea.BottomFull to "BottomFull",
         SystemArea.IME to "IME",
-        SystemArea.Cutout to "Cutout"
+        SystemArea.Cutout to "Cutout",
     )
 
     private fun getFillOptions() = listOf(
@@ -193,12 +193,12 @@ class BeforeAfterListActivity : AppCompatActivity() {
         "fillWithMargin" to "fillWithMargin()",
         "fillWithMargin_all" to "fillWithMargin(FillDirection.All)",
         "fillWithMargin_vertical" to "fillWithMargin(FillDirection.Vertical)",
-        "fillWithMargin_horizontal" to "fillWithMargin(FillDirection.Horizontal)"
+        "fillWithMargin_horizontal" to "fillWithMargin(FillDirection.Horizontal)",
     )
 
     private fun getEndOptions() = listOf(
         "handleEdgeToEdge" to "handleEdgeToEdge()",
-        "continueToOthers" to "continueToOthers()"
+        "continueToOthers" to "continueToOthers()",
     )
 
     private fun createSystemAreaSpinner(): Spinner {
@@ -206,7 +206,7 @@ class BeforeAfterListActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            getSystemAreas().map { it.second }
+            getSystemAreas().map { it.second },
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
@@ -219,7 +219,7 @@ class BeforeAfterListActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            getFillOptions().map { it.second }
+            getFillOptions().map { it.second },
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
@@ -232,7 +232,7 @@ class BeforeAfterListActivity : AppCompatActivity() {
         val adapter = ArrayAdapter(
             this,
             android.R.layout.simple_spinner_item,
-            getEndOptions().map { it.second }
+            getEndOptions().map { it.second },
         )
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
         spinner.adapter = adapter
@@ -274,5 +274,4 @@ class BeforeAfterListActivity : AppCompatActivity() {
         setTextColor(Color.GRAY)
         setPadding(20, 10, 20, 20)
     }
-
 }
