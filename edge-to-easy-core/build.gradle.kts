@@ -8,7 +8,7 @@ plugins {
     alias(libs.plugins.spotless)
 }
 
-group = "io.github.parkjonghun"
+group = "io.github.parkjong-hun"
 version = "0.0.1"
 
 android {
@@ -77,14 +77,14 @@ afterEvaluate {
             create<MavenPublication>("maven") {
                 from(components["release"])
 
-                groupId = "io.github.parkjonghun"
+                groupId = "io.github.parkjong-hun"
                 artifactId = "edge-to-easy-core"
                 version = project.version.toString()
 
                 pom {
                     name.set("Edge to Easy Core")
                     description.set("A Kotlin library that makes it easier to enable Edge to Edge in your Android app")
-                    url.set("https://github.com/parkjonghun/edge-to-easy")
+                    url.set("https://github.com/parkjong-hun/edge-to-easy")
                     licenses {
                         license {
                             name.set("Apache License 2.0")
@@ -94,15 +94,15 @@ afterEvaluate {
 
                     developers {
                         developer {
-                            id.set("parkjonghun")
+                            id.set("parkjong-hun")
                             name.set("Park Jong Hun")
                         }
                     }
 
                     scm {
-                        connection.set("scm:git:git://github.com/parkjonghun/edge-to-easy.git")
-                        developerConnection.set("scm:git:ssh://github.com:parkjonghun/edge-to-easy.git")
-                        url.set("https://github.com/parkjonghun/edge-to-easy")
+                        connection.set("scm:git:git://github.com/parkjong-hun/edge-to-easy.git")
+                        developerConnection.set("scm:git:ssh://github.com:parkjong-hun/edge-to-easy.git")
+                        url.set("https://github.com/parkjong-hun/edge-to-easy")
                     }
                 }
             }
@@ -111,7 +111,7 @@ afterEvaluate {
         repositories {
             maven {
                 name = "GitHubPackages"
-                url = uri("https://maven.pkg.github.com/parkjonghun/edge-to-easy")
+                url = uri("https://maven.pkg.github.com/parkjong-hun/edge-to-easy")
                 credentials {
                     username = project.findProperty("gpr.user") as String? ?: System.getenv("USERNAME")
                     password = project.findProperty("gpr.key") as String? ?: System.getenv("TOKEN")
