@@ -76,7 +76,7 @@ afterEvaluate {
         publications {
             create<MavenPublication>("maven") {
                 from(components["release"])
-                
+
                 groupId = "io.github.parkjonghun"
                 artifactId = "edge-to-easy-core"
                 version = project.version.toString()
@@ -107,7 +107,7 @@ afterEvaluate {
                 }
             }
         }
-        
+
         repositories {
             maven {
                 name = "GitHubPackages"
